@@ -1,9 +1,9 @@
 import React from 'react';
-import { TokenType, TOKEN_DETAILS } from '../../types/Pos';
+import { Token, TOKEN_DETAILS, TokenType } from '../../types/Pos';
 import { cn } from '../../utils/cn';
 
 interface TokenBadgeProps {
-  token: TokenType;
+  token: Token;
   size?: 'sm' | 'md' | 'lg';
   showName?: boolean;
   className?: string;
@@ -15,7 +15,23 @@ export const TokenBadge: React.FC<TokenBadgeProps> = ({
   showName = false,
   className,
 }) => {
-  const tokenDetails = TOKEN_DETAILS[token];
+  // const tokenDetails = TOKEN_DETAILS[token];
+  let tokenType: TokenType;
+  switch (token) {
+    case '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed':
+      tokenType = 'USDC';
+      break;
+    case '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74':
+      tokenType = 'USDT';
+      break;
+    case '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345':
+      tokenType = 'DAI';
+      break;
+    default:
+      tokenType = token; // Fallback for other cases
+  }
+  const tokenDetails = TOKEN_DETAILS[tokenType];
+  
   
   const sizeStyles = {
     sm: 'h-5 text-xs',

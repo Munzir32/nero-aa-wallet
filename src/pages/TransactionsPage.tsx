@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Layout } from '../components/layout/Layout';
-import { Transaction, TokenType, ChainType } from '../types/Pos';
+import { Transaction, TokenType, ChainType, Token } from '../types/Pos';
 import { formatCurrency, formatDate } from '../utils/formatters';
 import { TokenBadge } from '../components/ui/TokenBadge';
 import { ChainBadge } from '../components/ui/ChainBadge';
@@ -20,7 +20,11 @@ export const TransactionsPage: React.FC = () => {
   useEffect(() => {
     // Simulated transaction data
     const mockTransactions: Transaction[] = Array(20).fill(null).map((_, index) => {
-      const tokens: TokenType[] = ['USDC', 'USDT', 'DAI'];
+      const tokens: Token[] = [
+        '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+        '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74',
+        '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345'
+      ];
       const chains: ChainType[] = ['ethereum', 'polygon', 'base', 'optimism', 'arbitrum'];
       const statuses: ('pending' | 'confirmed' | 'failed')[] = ['pending', 'confirmed', 'failed'];
       const hash = "ox"
@@ -176,9 +180,9 @@ export const TransactionsPage: React.FC = () => {
                 className="rounded-lg border-gray-300 dark:border-gray-600 py-2 px-3 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-white sm:text-sm"
               >
                 <option value="all">All Tokens</option>
-                <option value="USDC">USDC</option>
-                <option value="USDT">USDT</option>
-                <option value="DAI">DAI</option>
+                <option value="0xC86Fed58edF0981e927160C50ecB8a8B05B32fed">USDC</option>
+                <option value="0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74">USDT</option>
+                <option value="0x5d0E342cCD1aD86a16BfBa26f404486940DBE345">DAI</option>
               </select>
             </div>
             

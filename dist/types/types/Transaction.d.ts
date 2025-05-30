@@ -65,13 +65,17 @@ export interface DAppTransactionData {
     value?: string | bigint;
 }
 export interface Transaction {
+    id?: string;
     hash: string;
     from?: string;
     to?: string;
     value?: string;
+    total?: string;
     timestamp?: number;
     status?: string;
     date?: string;
+    token?: string;
+    chain?: string;
     explorerUrlTx?: string;
     actions?: {
         type: string;

@@ -36,7 +36,7 @@ export interface Transaction {
   id: string;
   items: CartItem[];
   total: number;
-  token: TokenType;
+  token: Token;
   chain: ChainType;
   hash: string;
   customerWallet?: string;
