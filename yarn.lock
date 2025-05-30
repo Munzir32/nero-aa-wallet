@@ -5073,6 +5073,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cookie@npm:^1.0.1":
+  version: 1.0.2
+  resolution: "cookie@npm:1.0.2"
+  checksum: 2c5a6214147ffa7135ce41860c781de17e93128689b0d080d3116468274b3593b607bcd462ac210d3a61f081db3d3b09ae106e18d60b1f529580e95cf2db8a55
+  languageName: node
+  linkType: hard
+
 "copy-to-clipboard@npm:^3.3.3":
   version: 3.3.3
   resolution: "copy-to-clipboard@npm:3.3.3"
@@ -8498,6 +8505,8 @@ __metadata:
     react: ^18.3.1
     react-dom: ^18.3.1
     react-icons: ^5.2.1
+    react-qr-code: ^2.0.15
+    react-router-dom: ^7.6.0
     storybook: ^8.1.11
     swr: ^2.2.5
     tailwindcss: ^3.4.4
@@ -9426,6 +9435,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"qr.js@npm:0.0.0":
+  version: 0.0.0
+  resolution: "qr.js@npm:0.0.0"
+  checksum: 5ac6c393967bdeaa660e7fd3a501a25eb538c1f6008a4d30ab2b97bbe520e5c236530090773f1578aa0a523cdaa6923c866615e21143f9e7cd22abd41c789b69
+  languageName: node
+  linkType: hard
+
 "qrcode-generator@npm:^1.4.4":
   version: 1.4.4
   resolution: "qrcode-generator@npm:1.4.4"
@@ -9618,6 +9634,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-qr-code@npm:^2.0.15":
+  version: 2.0.15
+  resolution: "react-qr-code@npm:2.0.15"
+  dependencies:
+    prop-types: ^15.8.1
+    qr.js: 0.0.0
+  peerDependencies:
+    react: "*"
+  checksum: 4124b7c2ce71bfe94279d85322175c881ba87dcc9b67f3c6d6e2806854a8792cf5f9ed8e10ea04c22e39aa060ef12fb39e679e780cba14f168d3cd6cffb7086d
+  languageName: node
+  linkType: hard
+
 "react-qrcode-logo@npm:^3.0.0":
   version: 3.0.0
   resolution: "react-qrcode-logo@npm:3.0.0"
@@ -9670,6 +9698,34 @@ __metadata:
     "@types/react":
       optional: true
   checksum: 310e6e6d2f28226a1751dc5084a2dce49167f0b69e3d78d6510f329f423ee313d4f6477f5e1adccb68baef40a7af75541e980a8c398cb82ea0d3573e514e8124
+  languageName: node
+  linkType: hard
+
+"react-router-dom@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "react-router-dom@npm:7.6.0"
+  dependencies:
+    react-router: 7.6.0
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  checksum: d78c3680f02c5365e1a06beece84c5671bef3b28ca87ce8d7a37d6e8ad10343cc142444b90a08b41e24cf9065e35b01ae846f5f15dfdd12bf961c5c011bad73b
+  languageName: node
+  linkType: hard
+
+"react-router@npm:7.6.0":
+  version: 7.6.0
+  resolution: "react-router@npm:7.6.0"
+  dependencies:
+    cookie: ^1.0.1
+    set-cookie-parser: ^2.6.0
+  peerDependencies:
+    react: ">=18"
+    react-dom: ">=18"
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+  checksum: 229b7e6d8340f6b5d72269519939cdc0d5d8dd6c84a0829cbaacb3471f0c661ae010e79115e6cee6bb2c1d1c79eef8c6fda62ec8ebc2011f7d3b3c47df17c427
   languageName: node
   linkType: hard
 
@@ -10127,6 +10183,13 @@ __metadata:
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
   checksum: 6e65a05f7cf7ebdf8b7c75b101e18c0b7e3dff4940d480efed8aad3a36a4005140b660fa1d804cb8bce911cac290441dc728084a30504d3516ac2ff7ad607b02
+  languageName: node
+  linkType: hard
+
+"set-cookie-parser@npm:^2.6.0":
+  version: 2.7.1
+  resolution: "set-cookie-parser@npm:2.7.1"
+  checksum: 2ef8b351094712f8f7df6d63ed4b10350b24a5b515772690e7dec227df85fcef5bc451c7765f484fd9f36694ece5438d1456407d017f237d0d3351d7dbbd3587
   languageName: node
   linkType: hard
 

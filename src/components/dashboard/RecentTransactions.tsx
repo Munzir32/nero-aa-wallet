@@ -23,7 +23,7 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({ transact
         return null;
     }
   };
-  
+
   const getEtherscanLink = (chain: string, txHash: string) => {
     // This is a placeholder - in a real implementation, you would map the chain to its explorer URL
     return `https://etherscan.io/tx/${txHash}`;
@@ -56,25 +56,25 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({ transact
                 </tr>
               ) : (
                 transactions.map((transaction) => (
-                  <tr key={transaction.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                    <td className="px-4 py-3">{formatDate(transaction.timestamp)}</td>
+                  <tr key={transaction?.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                    <td className="px-4 py-3">{formatDate(transaction?.timestamp || Date.now())}</td>
                     <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
-                      {formatCurrency(transaction.total)}
+                      {formatCurrency(Number(transaction?.total) || 0)}
                     </td>
                     <td className="px-4 py-3">
-                      <TokenBadge token={transaction.token} size="sm" />
+                      <TokenBadge token={transaction?.token} size="sm" />
                     </td>
                     <td className="px-4 py-3">
-                      <ChainBadge chain={transaction.chain} size="sm" />
+                      <ChainBadge chain={transaction?.chain} size="sm" />
                     </td>
                     <td className="px-4 py-3">
-                      {getStatusBadge(transaction.status)}
+                      {getStatusBadge(transaction?.status || 'pending')}
                     </td>
                     <td className="px-4 py-3">
-                      {transaction.txHash && (
-                        <a 
-                          href={getEtherscanLink(transaction.chain, transaction.txHash)} 
-                          target="_blank" 
+                      {transaction?.hash && (
+                        <a
+                          href={getEtherscanLink(transaction?.chain || 'mainnet', transaction.hash)}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
                         >

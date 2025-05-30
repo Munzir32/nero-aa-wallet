@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChainType, CHAIN_DETAILS } from '../../types';
+import { ChainType, CHAIN_DETAILS } from '../../types/Pos';
 import { cn } from '../../utils/cn';
 
 interface ChainBadgeProps {

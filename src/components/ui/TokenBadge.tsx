@@ -1,5 +1,5 @@
 import React from 'react';
-import { TokenType, TOKEN_DETAILS } from '../../types';
+import { TokenType, TOKEN_DETAILS } from '../../types/Pos';
 import { cn } from '../../utils/cn';
 
 interface TokenBadgeProps {

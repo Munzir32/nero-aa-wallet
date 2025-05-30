@@ -55,8 +55,9 @@ contract PoSReceiver is ReentrancyGuard, Ownable {
         uint256 id;
         string name;
         string description;
-        uint256 price; // Price in token's smallest unit (e.g., wei for ETH, or token decimals)
-        address acceptedToken; // ERC20 token address for payment
+        string image;
+        uint256 price; 
+        address acceptedToken; 
         address merchant;
         bool active;
         uint256 totalSales;
@@ -90,7 +91,7 @@ contract PoSReceiver is ReentrancyGuard, Ownable {
     mapping(address => mapping(uint256 => bool)) public merchantOwnsProduct; // merchant => productId => owns
     mapping(address => uint256) public collectedFees; // token => total fees collected
     
-    uint256 private _nextProductId = 1;
+    uint256 public _nextProductId = 1;
     uint256 public totalProducts;
     uint256 public constant PLATFORM_FEE_PERCENTAGE = 5; // 5% platform fee
     uint256 public constant FEE_DENOMINATOR = 100;
@@ -114,11 +115,17 @@ contract PoSReceiver is ReentrancyGuard, Ownable {
         _;
     }
 
-    constructor() {}
+    constructor()Ownable(msg.sender) {
+
+    }
 
     // ================= MERCHANT MANAGEMENT =================
     
     function addMerchant(address merchant) external onlyOwner {
+        authorizedMerchants[merchant] = true;
+    }
+
+    function addMerchantNotAdmin(address merchant) external  {
         authorizedMerchants[merchant] = true;
     }
 
@@ -131,6 +138,7 @@ contract PoSReceiver is ReentrancyGuard, Ownable {
     function addProduct(
         string memory name,
         string memory description,
+        string memory image,
         uint256 price,
         address acceptedToken
     ) external onlyAuthorizedMerchant returns (uint256) {
@@ -144,6 +152,7 @@ contract PoSReceiver is ReentrancyGuard, Ownable {
             id: productId,
             name: name,
             description: description,
+            image: image,
             price: price,
             acceptedToken: acceptedToken,
             merchant: msg.sender,

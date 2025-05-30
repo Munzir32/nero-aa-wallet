@@ -13,7 +13,7 @@ const config = {
       chain: {
         name: 'NERO Testnet',
         logo: NEROLogoSquareIcon,
-        networkType: 'testnet',
+        networkType: 'testnet' as const,
         rpc: 'https://rpc-testnet.nerochain.io',
         chainId: 689,
         explorer: 'https://testnet.neroscan.io',
@@ -69,7 +69,7 @@ const config = {
       chain: {
         name: 'NERO Mainnet',
         logo: NEROLogoSquareIcon,
-        networkType: 'mainnet',
+        networkType: 'mainnet' as const,
         rpc: 'https://rpc.nerochain.io',
         chainId: 1689,
         explorer: 'https://neroscan.io',
