@@ -7,6 +7,9 @@ import { TokenBadge } from '../ui/TokenBadge';
 import { ChainBadge } from '../ui/ChainBadge';
 import QRCode from "react-qr-code";
 import { X, Copy, CheckCircle, Loader, RefreshCw } from 'lucide-react';
+import { useSendUserOp } from '@/hooks';
+import POSAbi from "../../contract/abi.json"
+import { contractAddress } from '@/contract';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -30,6 +33,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [status, setStatus] = useState<PaymentStatus>('generating');
   const [countdown, setCountdown] = useState(300); 
   const [txHash, setTxHash] = useState<string | null>(null);
+  const [isPaymentClicked, setIsPaymentClicked] = useState(false);
+  const [transfers, setTransfers] = useState([]);
+  const [address, setAddress] = useState<string>('')
+  const [isListening, setIsListening] = useState(false);
+  const [userOpHash, setUserOpHash] = useState<string | null>('');
+
+  const [txStatus, setTxStatus] = useState('');
+  const [isPolling, setIsPolling] = useState(false);
+  console.log( txStatus, isPolling)
+
+  const { execute, waitForUserOpResult } = useSendUserOp();
+
   
   useEffect(() => {
     if (!isOpen) return;
@@ -45,25 +60,34 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(countdownInterval);
+            if (!isPaymentClicked) {
+              setStatus('failed');
+            }
             return 0;
           }
           return prev - 1;
         });
       }, 1000);
+
+      
       
       // Simulate payment (randomly between 5-15 seconds)
       const paymentTimer = setTimeout(() => {
-        const success = Math.random() > 0.2; // 80% success rate
-        
-        if (success) {
-          setStatus('confirmed');
-          setTxHash('0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef');
+        if (isPaymentClicked) {
+          const success = Math.random() > 0.2; // 80% success rate
+          
+          if (success) {
+            setStatus('confirmed');
+            setTxHash('0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef');
+          } else {
+            setStatus('failed');
+          }
         } else {
           setStatus('failed');
         }
         
         clearInterval(countdownInterval);
-      }, Math.random() * 10000 + 5000);
+      }, 120000); // 2 minutes
       
       return () => {
         clearTimeout(paymentTimer);
@@ -74,7 +98,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     return () => {
       clearTimeout(generateTimer);
     };
-  }, [isOpen]);
+  }, [isOpen, isPaymentClicked]);
   
   const calculateTotal = () => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -93,6 +117,43 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     // Would add toast notification in a real implementation
   };
   
+  const isPaymentConfirm = async () => {
+    
+    const success = Math.random() > 0.2; // 80% success rate
+    if (success) {
+      setStatus('confirmed');
+      setTxHash('0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef');
+    } else {
+      setStatus('failed');
+    }
+
+    try {
+      const resultExcute = await execute({
+        function: 'addMerchantNotAdmin',
+        contractAddress: contractAddress,
+        abi: POSAbi,
+        params: [address],
+        value: 0,
+      });
+
+      const result = await waitForUserOpResult();
+          setUserOpHash(result?.userOpHash);
+          setIsPolling(true);
+          console.log(result)
+    
+          if (result.result === true) {
+            setTxStatus('Success!');
+            setIsPolling(false);
+          } else if (result.transactionHash) {
+            setTxStatus('Transaction hash: ' + result.transactionHash);
+          }
+
+      setIsPaymentClicked(true);
+      setAddress('')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const renderStatusIndicator = () => {
     switch (status) {
       case 'generating':
@@ -138,7 +199,24 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 >
                   <Copy className="h-4 w-4" />
                 </button>
+
               </div>
+              <div className="flex items-center justify-center mt-4">
+                  <input
+                    type="text"
+                    name="Wallet Address"
+                    id="wallet" onChange={(e) => setAddress(e.target.value)}
+                    className="bg-gray-100 dark:bg-gray-800 py-4 px-2 rounded text-xs font-mono"
+                    placeholder="Enter Wallet Address"
+                  />
+                  <button
+                    onClick={isPaymentConfirm}
+                    className="ml-2 bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600"
+                  >
+                    Confirm Payment
+                  </button>
+                </div>
+
             </div>
             
             <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 flex items-center">

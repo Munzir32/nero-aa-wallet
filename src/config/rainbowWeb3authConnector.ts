@@ -98,7 +98,7 @@ export const rainbowWeb3AuthConnector = ({
           loginConfig: {
             google: {
               name: walletConfig.loginConfig.google.name,
-              verifier: walletConfig.loginConfig.google.verifier,
+              verifier: "posale",
               typeOfLogin: 'google', // Pass on the login provider of the verifier you've created
               clientId: walletConfig.loginConfig.google.clientId, // Pass on the Google `Client ID` here'
             },

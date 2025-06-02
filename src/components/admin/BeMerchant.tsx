@@ -5,7 +5,7 @@ import { Input } from '../ui/Input';
 import { TOKEN_DETAILS } from '../../types/Pos';
 import POSAbi from "../../contract/abi.json"
 import { contractAddress } from '@/contract';
-import { useSignature, useSendUserOp, useConfig } from '@/hooks';
+import { useSendUserOp, useConfig } from '@/hooks';
 
 interface ProductFormProps {
   initialProduct?: Partial<Product>;
@@ -29,7 +29,7 @@ export const BeMerchant: React.FC = ({
     // ...initialProduct,
   });
 
-//   const {  } = useSignMessage():
+
 
   const [address, setAddress] = useState('')
 

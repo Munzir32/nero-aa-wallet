@@ -13,7 +13,7 @@ const config = {
       chain: {
         name: 'NERO Testnet',
         logo: NEROLogoSquareIcon,
-        networkType: 'testnet' as const,
+        networkType: 'sapphire_devnet' as const,
         rpc: 'https://rpc-testnet.nerochain.io',
         chainId: 689,
         explorer: 'https://testnet.neroscan.io',
@@ -108,7 +108,7 @@ const config = {
         loginConfig: {
           google: {
             name: 'google',
-            verifier: 'NeroTest-Google-Maintest',
+            verifier: 'posale',
             typeOfLogin: 'google',
             clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
           },
