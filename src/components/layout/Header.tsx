@@ -5,6 +5,7 @@ import { Button } from '../ui/Button';
 import { WalletStatus } from '../ui/WalletStatus';
 // import { useWallet } from '../../contexts/WalletContext';
 import { useSignature } from '@/hooks';
+import { Wallet } from '@/types/Pos';
 import { cn } from '../../utils/cn';
 
 interface NavItemProps {
@@ -66,7 +67,7 @@ export const Header: React.FC = () => {
           </div>
           
           <div className="hidden sm:ml-6 sm:flex sm:items-center sm:space-x-4">
-            <WalletStatus wallet={AAaddress} />
+            <WalletStatus wallet={AAaddress as unknown as Wallet} />
             
             {AAaddress ? (
               <Button 
@@ -128,7 +129,7 @@ export const Header: React.FC = () => {
           </div>
           <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between px-4">
-              <WalletStatus wallet={AAaddress} />
+            <WalletStatus wallet={AAaddress as unknown as Wallet} />
               
               {AAaddress ? (
                 <Button 

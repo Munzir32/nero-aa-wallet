@@ -184,7 +184,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   }  className="ml-2" />
               </div>
               <div className="flex items-center justify-center mt-2">
-                <ChainBadge chain={chain} />
+                <ChainBadge size='sm' />
               </div>
               
               <div className="mt-4 flex items-center justify-center">

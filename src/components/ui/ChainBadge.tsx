@@ -3,19 +3,18 @@ import { ChainType, CHAIN_DETAILS } from '../../types/Pos';
 import { cn } from '../../utils/cn';
 
 interface ChainBadgeProps {
-  chain: ChainType;
+
   size?: 'sm' | 'md' | 'lg';
   showName?: boolean;
   className?: string;
 }
 
 export const ChainBadge: React.FC<ChainBadgeProps> = ({
-  chain,
   size = 'md',
   showName = true,
   className,
 }) => {
-  const chainDetails = CHAIN_DETAILS[chain];
+  const chainDetails = CHAIN_DETAILS["nero"];
   
   const sizeStyles = {
     sm: 'h-5 text-xs',

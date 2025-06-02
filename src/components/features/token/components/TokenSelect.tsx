@@ -77,7 +77,7 @@ const TokenSelect: React.FC<
     >
       <div className='flex items-center space-x-2 flex-shrink-0 w-1/2'>
         <TokenIcon
-          tokenAddress={token.contractAddress}
+          tokenAddress={token?.contractAddress}
           symbol={token.symbol}
           isNative={token.isNative}
           size='md'

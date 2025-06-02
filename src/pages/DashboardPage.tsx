@@ -20,68 +20,9 @@ export const DashboardPage: React.FC = () => {
     monthlyChange: 8.7,
   });
   
-  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
+  // const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   
-  useEffect(() => {
-    // Simulated data loading
-    const mockTransactions: Transaction[] = [
-      {
-        id: '1',
-        items: [{ id: 'p1', name: 'Product 1', price: 99.99, token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed', quantity: 1, createdAt: Date.now() }],
-        total: 99.99,
-        token: 'USDC',
-        hash: "ox",
-        chain: 'ethereum',
-        status: 'confirmed',
-        txHash: '0x1234567890abcdef',
-        timestamp: Date.now() - 1000 * 60 * 30, // 30 minutes ago
-      },
-      {
-        id: '2',
-        items: [{ id: 'p2', name: 'Product 2', price: 149.99, token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed', quantity: 2, createdAt: Date.now() }],
-        total: 299.98,
-        token: 'USDT',
-        hash: "ox",
-        chain: 'polygon',
-        status: 'confirmed',
-        txHash: '0xabcdef1234567890',
-        timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
-      },
-      {
-        id: '3',
-        items: [{ id: 'p3', name: 'Product 3', price: 199.99, token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed', quantity: 1, createdAt: Date.now() }],
-        total: 199.99,
-        token: 'DAI',
-        hash: "ox",
-        chain: 'base',
-        status: 'pending',
-        timestamp: Date.now() - 1000 * 60 * 10, // 10 minutes ago
-      },
-      {
-        id: '4',
-        items: [{ id: 'p4', name: 'Product 4', price: 49.99, token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed', quantity: 3, createdAt: Date.now() }],
-        total: 149.97,
-        token: 'USDC',
-        hash: "ox",
-        chain: 'ethereum',
-        status: 'confirmed',
-        txHash: '0xfedcba0987654321',
-        timestamp: Date.now() - 1000 * 60 * 60 * 6, // 6 hours ago
-      },
-      {
-        id: '5',
-        items: [{ id: 'p5', name: 'Product 5', price: 299.99, token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed', quantity: 1, createdAt: Date.now() }],
-        total: 299.99,
-        token: 'USDT',
-        hash: "ox",
-        chain: 'optimism',
-        status: 'failed',
-        timestamp: Date.now() - 1000 * 60 * 45, // 45 minutes ago
-      },
-    ];
-    
-    setRecentTransactions(mockTransactions);
-  }, []);
+
   
   return (
     <Layout>

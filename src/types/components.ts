@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 import { IconType } from 'react-icons'
-import { ERC20Token, NftWithImages, Token, TokenData } from './Token'
+import { ERC20Token, NftWithImages, Token, TokenData } from './Tokens'
 
 // ===== Base Components =====
 export interface BaseComponentProps {

@@ -6,7 +6,7 @@ import { ChainBadge } from '../ui/ChainBadge';
 // import { ExternalLink } from 'lucide-react';
 import { ChainType } from '@/types/Pos';
 import { useReadTransaction, } from '@/hooks/pos/useReadProduct';
-import { TransactionInfo } from '@/types/Pos';
+import { TransactionInfo, Token } from '@/types/Pos';
 interface TransactionRowProps {
   id: string;
 //   getEtherscanLink: (chain: string, txHash: string) => string;
@@ -62,12 +62,11 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
       <TokenBadge 
-        token={transactionInfo?.token || "USDC"} 
+        token={transactionInfo?.token as Token || "USDC" as Token} 
         />
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        {/* <ChainBadge chain={transaction.chain as ChainType || 'usdc'} size="sm" /> */}
-        <ChainBadge chain={'nero' as ChainType} size="sm" />
+        <ChainBadge size="sm" />
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
         {/* {getStatusBadge('confirmed')} */}

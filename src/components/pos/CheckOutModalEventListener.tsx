@@ -55,49 +55,49 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    let provider: ethers.providers.JsonRpcProvider | undefined;
-    let contract: ethers.Contract | undefined;
-    let countdownInterval: NodeJS.Timeout | undefined;
+  // useEffect(() => {
+  //   let provider: ethers.providers.JsonRpcProvider | undefined;
+  //   let contract: ethers.Contract | undefined;
+  //   let countdownInterval: NodeJS.Timeout | undefined;
 
-    if (status === 'pending' && isOpen) {
-      // Start countdown timer
-      countdownInterval = setInterval(() => {
-        setCountdown(prev => {
-          if (prev <= 1) {
-            clearInterval(countdownInterval!);
-            setStatus('failed');
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+  //   if (status === 'pending' && isOpen) {
+  //     // Start countdown timer
+  //     countdownInterval = setInterval(() => {
+  //       setCountdown(prev => {
+  //         if (prev <= 1) {
+  //           clearInterval(countdownInterval!);
+  //           setStatus('failed');
+  //           return 0;
+  //         }
+  //         return prev - 1;
+  //       });
+  //     }, 1000);
 
-      // Listen for ERC20 Transfer event
-      provider = new ethers.providers.JsonRpcProvider(chain?.rpcUrl);
-      contract = new ethers.Contract(token, [
-        "event Transfer(address indexed from, address indexed to, uint256 value)"
-      ], provider);
+  //     // Listen for ERC20 Transfer event
+  //     provider = new ethers.providers.JsonRpcProvider(chain?.rpcUrl);
+  //     contract = new ethers.Contract(token, [
+  //       "event Transfer(address indexed from, address indexed to, uint256 value)"
+  //     ], provider);
 
-      const filter = contract.filters.Transfer(null, walletAddress);
+  //     const filter = contract.filters.Transfer(null, walletAddress);
 
-      contract.on(filter, (from: string, to: string, value: ethers.BigNumber, event: any) => {
-        if (
-          value.toString() === ethers.utils.parseUnits(total.toString(), token.decimals).toString()
-        ) {
-          setStatus('confirmed');
-          setTxHash(event.transactionHash);
-          contract!.removeAllListeners();
-          clearInterval(countdownInterval!);
-        }
-      });
-    }
+  //     contract.on(filter, (from: string, to: string, value: ethers.BigNumber, event: any) => {
+  //       if (
+  //         value.toString() === ethers.utils.parseUnits(total.toString(), token.decimals).toString()
+  //       ) {
+  //         setStatus('confirmed');
+  //         setTxHash(event.transactionHash);
+  //         contract!.removeAllListeners();
+  //         clearInterval(countdownInterval!);
+  //       }
+  //     });
+  //   }
 
-    return () => {
-      if (contract) contract.removeAllListeners();
-      if (countdownInterval) clearInterval(countdownInterval);
-    };
-  }, [status, isOpen, walletAddress, total, token, chain]);
+  //   return () => {
+  //     if (contract) contract.removeAllListeners();
+  //     if (countdownInterval) clearInterval(countdownInterval);
+  //   };
+  // }, [status, isOpen, walletAddress, total, token, chain]);
 
   const formatCountdown = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -141,7 +141,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   } className="ml-2" />
               </div>
               <div className="flex items-center justify-center mt-2">
-                <ChainBadge chain={chain} />
+                <ChainBadge size='sm' />
               </div>
               
               <div className="mt-4 flex items-center justify-center">

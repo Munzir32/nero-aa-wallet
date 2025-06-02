@@ -69,11 +69,7 @@ export const LoginPage: React.FC = () => {
             </div>
             
             <div className="mt-4 flex flex-wrap justify-center gap-2">
-              <ChainBadge chain="ethereum" />
-              <ChainBadge chain="polygon" />
-              <ChainBadge chain="base" />
-              <ChainBadge chain="optimism" />
-              <ChainBadge chain="arbitrum" />
+              <ChainBadge size='sm' />
             </div>
           </div>
         </div>

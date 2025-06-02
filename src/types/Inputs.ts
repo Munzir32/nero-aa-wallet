@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import React from 'react'
 import { BaseComponentProps } from './components'
-import { Token } from './Token'
+import { Token } from './Tokens'
 
 export interface BaseInputProps extends BaseComponentProps {
   value?: string

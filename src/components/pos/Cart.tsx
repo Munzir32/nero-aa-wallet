@@ -80,7 +80,12 @@ export const Cart: React.FC<CartProps> = ({
               <span className="text-lg font-bold text-gray-900 dark:text-white">
                 {formatCurrency(total)}
               </span>
-              <TokenBadge token={selectedToken} className="ml-2" size="sm" />
+              <TokenBadge token={
+                    selectedToken === 'USDC' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
+                    selectedToken === 'USDT' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
+                    selectedToken === 'DAI' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
+                    selectedToken
+                  } className="ml-2" size="sm" />
             </div>
           </div>
         </div>

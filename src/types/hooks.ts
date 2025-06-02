@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import { Token } from './Token'
+import { Token } from './Tokens'
 
 // 非同期状態管理のインターフェース
 export interface AsyncState<T> {

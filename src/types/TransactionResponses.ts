@@ -1,7 +1,7 @@
 /**
  * Transaction API response interfaces
  */
-import { TokenBase } from './Token'
+import { TokenBase } from './Tokens'
 import { StandardTransaction, TokenTransaction, InternalTransaction } from './Transaction'
 
 // Common response structure for API responses

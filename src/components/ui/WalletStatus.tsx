@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wallet } from '../../types';
+import { Wallet } from '../../types/Pos';
 import { formatAddress } from '../../utils/formatters';
 import { cn } from '../../utils/cn';
 

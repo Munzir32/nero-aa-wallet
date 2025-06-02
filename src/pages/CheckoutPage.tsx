@@ -257,7 +257,7 @@ export const CheckoutPage: React.FC = () => {
               
               <div className="mt-2 flex items-center justify-end space-x-2">
                 <TokenBadge token={selectedToken} />
-                <ChainBadge chain={selectedChain} />
+                <ChainBadge />
               </div>
             </div>
           </div>

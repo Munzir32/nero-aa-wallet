@@ -55,40 +55,42 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({ transact
                   </td>
                 </tr>
               ) : (
-                transactions.map((transaction) => (
-                  <tr key={transaction?.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-                    <td className="px-4 py-3">{formatDate(transaction?.timestamp || Date.now())}</td>
-                    <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
-                      {formatCurrency(Number(transaction?.total) || 0)}
-                    </td>
-                    <td className="px-4 py-3">
-                    <TokenBadge token={
-                    transaction?.token === '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
-                    transaction?.token === '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
-                    transaction?.token === '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
-                    transaction?.token || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' // Fallback to USDC
-                  } size="sm" />
-                    </td>
-                    <td className="px-4 py-3">
-                      <ChainBadge chain={transaction?.chain} size="sm" />
-                    </td>
-                    <td className="px-4 py-3">
-                      {getStatusBadge(transaction?.status || 'pending')}
-                    </td>
-                    <td className="px-4 py-3">
-                      {transaction?.hash && (
-                        <a
-                          href={getEtherscanLink(transaction?.chain || 'mainnet', transaction.hash)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
-                        >
-                          View <ExternalLink className="ml-1 h-3 w-3" />
-                        </a>
-                      )}
-                    </td>
-                  </tr>
-                ))
+                // transactions.map((transaction) => (
+                //   <tr key={transaction?.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                //     <td className="px-4 py-3">{formatDate(transaction?.timestamp || Date.now())}</td>
+                //     <td className="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                //       {formatCurrency(Number(transaction?.total) || 0)}
+                //     </td>
+                //     <td className="px-4 py-3">
+                //     {/* <TokenBadge token={
+                //     transaction?.token === '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
+                //     transaction?.token === '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
+                //     transaction?.token === '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
+                //     transaction?.token || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' // Fallback to USDC
+                //   } size="sm" /> */}
+                //     </td>
+                //     <td className="px-4 py-3">
+                //       <ChainBadge size="sm" />
+                //     </td>
+                //     <td className="px-4 py-3">
+                //       {getStatusBadge(transaction?.status || 'pending')}
+                //     </td>
+                //     <td className="px-4 py-3">
+                //       {transaction?.hash && (
+                //         <a
+                //           // href={getEtherscanLink("nero" || 'mainnet', transaction.hash)}
+                //           target="_blank"
+                //           rel="noopener noreferrer"
+                //           className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
+                //         >
+                //           View <ExternalLink className="ml-1 h-3 w-3" />
+                //         </a>
+                //       )}
+                //     </td>
+                //   </tr>
+                // ))
+                <>
+                </>
               )}
             </tbody>
           </table>
