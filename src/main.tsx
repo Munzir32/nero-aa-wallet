@@ -22,7 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <SocialWallet config={neroConfig} mode='sidebar'>
       <Router>
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
+          {/* <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<DashboardPage />} />
           <Route path="/pos" element={<POSPage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -30,7 +30,15 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/admin/add-merchant" element={<AddMerchatPage />} />
-          <Route path="/sample" element={<Sample />} />
+          <Route path="/sample" element={<Sample />} /> */}
+          <Route path="/" element={<DashboardPage />} />
+    <Route path="/pos" element={<POSPage />} />
+    <Route path="/products" element={<ProductsPage />} />
+    <Route path="/transactions" element={<TransactionsPage />} />
+    <Route path="/settings" element={<SettingsPage />} />
+    <Route path="/checkout" element={<CheckoutPage />} />
+    <Route path="/admin/add-merchant" element={<AddMerchantModal />} />
+    <Route path="/sample" element={<Sample />} />
         </Routes>
       </Router>
     </SocialWallet>
