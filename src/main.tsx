@@ -4,7 +4,7 @@ import neroConfig from '../nerowallet.config'
 import { SocialWallet } from './index'
 import '@rainbow-me/rainbowkit/styles.css'
 import '@/index.css'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext'
 import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/DashboardPage'
@@ -22,7 +22,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <SocialWallet config={neroConfig} mode='sidebar'>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/" replace />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/pos" element={<POSPage />} />
