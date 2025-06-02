@@ -9,19 +9,20 @@ import { useReadTransaction, } from '@/hooks/pos/useReadProduct';
 import { TransactionInfo } from '@/types/Pos';
 interface TransactionRowProps {
   id: string;
-  getEtherscanLink: (chain: string, txHash: string) => string;
-  getStatusBadge: (status: string) => React.ReactNode;
+//   getEtherscanLink: (chain: string, txHash: string) => string;
+//   getStatusBadge: (status: string) => React.ReactNode;
 }
 
 export const TransactionRow: React.FC<TransactionRowProps> = ({
   id,
-  getEtherscanLink,
-  getStatusBadge,
+//   getEtherscanLink,
+//   getStatusBadge,
 }) => {
 
     const [transactionInfo, setTransactionInfo] = useState<TransactionInfo | null>(null)
 
-    const { posTransaction } = useReadTransaction(id)
+    const { posTransaction } = useReadTransaction("1")
+    console.log(posTransaction, "pos len")
 
     const productFetch = useCallback(async () => {
         if (!posTransaction || !Array.isArray(posTransaction)) {
@@ -69,7 +70,7 @@ export const TransactionRow: React.FC<TransactionRowProps> = ({
         <ChainBadge chain={'nero' as ChainType} size="sm" />
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        {getStatusBadge('confirmed')}
+        {/* {getStatusBadge('confirmed')} */}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
         {/* {transaction?.hash && (

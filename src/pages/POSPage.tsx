@@ -112,7 +112,7 @@ export const POSPage: React.FC = () => {
 
       const newMap = new Map<string, string>();
       if (typeof productLen === 'bigint' && productLen > 0) {
-        for (let i = 1; i < productLen; i++) {
+        for (let i = 0; i < productLen; i++) {
           newMap.set(i.toString(), i.toString()); 
         }
         setPosproductLen(new Map(newMap));

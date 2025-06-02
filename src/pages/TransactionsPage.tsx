@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Input } from '../components/ui/Input';
 import {  Search, Filter, Calendar } from 'lucide-react';
 import { TransactionRow } from '@/components/transactions/TransactionRow';
-import { useReadTransactionLen } from '@/hooks/pos/useReadProduct';
+import { useReadTransactionLen, useReadTransaction } from '@/hooks/pos/useReadProduct';
 import { TransactionInfo } from '../types/Pos';
 
 export const TransactionsPage: React.FC = () => {
@@ -19,6 +19,7 @@ export const TransactionsPage: React.FC = () => {
   const [dateFilter, setDateFilter] = useState<string>('all');
   const [txlen, setTxlen] = useState<Map<string, string>>(new Map())
   const { posTransactionLen } = useReadTransactionLen();
+ 
 
   const getPOSTransaction = useCallback(() => {
     try {
@@ -44,6 +45,7 @@ export const TransactionsPage: React.FC = () => {
   useEffect(() => {
     getPOSTransaction()
   }, [posTransactionLen, getPOSTransaction])
+  console.log(txlen, "txlen")
 
   
   useEffect(() => {
@@ -262,7 +264,7 @@ export const TransactionsPage: React.FC = () => {
             </tr>
           </thead>
           <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-            {filteredTransactions.length === 0 ? (
+            {txlen?.size === 0 ? (
               <tr>
                 <td colSpan={7} className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
                   No transactions found matching your filters.
@@ -272,8 +274,7 @@ export const TransactionsPage: React.FC = () => {
 
               <>
               {[...txlen.entries()].map(([key, value]) => (
-                    <TransactionRow getStatusBadge={getStatusBadge} 
-                     getEtherscanLink={getEtherscanLink}
+                    <TransactionRow 
                   key={key} 
                   id={value}
                 />
