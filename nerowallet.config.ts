@@ -55,6 +55,7 @@ const config = {
             verifier: 'NeroTest-Google-Maintest',
             typeOfLogin: 'google',
             clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+            redirectUrl: window.location.origin,
           },
           facebook: {
             name: 'facebook',
