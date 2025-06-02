@@ -11,14 +11,14 @@ export const formatCurrency = (amount: number): string => {
 /**
  * Formats a timestamp as a readable date
  */
-export const formatDate = (timestamp: number): string => {
+export const formatDate = (timestamp: number | bigint): string => {
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
     hour: 'numeric',
     minute: '2-digit',
-  }).format(new Date(timestamp));
+  }).format(new Date(Number(timestamp)));
 };
 
 /**

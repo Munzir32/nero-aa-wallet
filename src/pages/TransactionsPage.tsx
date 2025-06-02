@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Layout } from '../components/layout/Layout';
-import { Transaction, TokenType, ChainType, Token } from '../types/Pos';
-import { formatCurrency, formatDate } from '../utils/formatters';
-import { TokenBadge } from '../components/ui/TokenBadge';
-import { ChainBadge } from '../components/ui/ChainBadge';
+import { Transaction, ChainType, Token } from '../types/Pos';
+
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Input } from '../components/ui/Input';
-import { ExternalLink, Search, Filter, Calendar } from 'lucide-react';
+import {  Search, Filter, Calendar } from 'lucide-react';
+import { TransactionRow } from '@/components/transactions/TransactionRow';
+import { useReadTransactionLen } from '@/hooks/pos/useReadProduct';
+import { TransactionInfo } from '../types/Pos';
 
 export const TransactionsPage: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -16,6 +17,34 @@ export const TransactionsPage: React.FC = () => {
   const [tokenFilter, setTokenFilter] = useState<string>('all');
   const [chainFilter, setChainFilter] = useState<string>('all');
   const [dateFilter, setDateFilter] = useState<string>('all');
+  const [txlen, setTxlen] = useState<Map<string, string>>(new Map())
+  const { posTransactionLen } = useReadTransactionLen();
+
+  const getPOSTransaction = useCallback(() => {
+    try {
+      if (!posTransactionLen) {
+        console.log("productLen is undefined or null");
+        return;
+      }
+
+      const newMap = new Map<string, string>();
+      if (typeof posTransactionLen === 'bigint' && posTransactionLen > 0) {
+        for (let i = 1; i < posTransactionLen; i++) {
+          newMap.set(i.toString(), i.toString()); 
+        }
+        setTxlen(new Map(newMap));
+      } else {
+        console.log("posTransactionLen isn't valid bigint:", posTransactionLen);
+      }
+    } catch (error) {
+      console.error("Error setting employee IDs:", error);
+    }
+  }, [posTransactionLen])
+
+  useEffect(() => {
+    getPOSTransaction()
+  }, [posTransactionLen, getPOSTransaction])
+
   
   useEffect(() => {
     // Simulated transaction data
@@ -25,7 +54,7 @@ export const TransactionsPage: React.FC = () => {
         '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74',
         '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345'
       ];
-      const chains: ChainType[] = ['ethereum', 'polygon', 'base', 'optimism', 'arbitrum'];
+      const chains: ChainType[] = ['ethereum', 'nero', 'base', 'optimism', 'arbitrum'];
       const statuses: ('pending' | 'confirmed' | 'failed')[] = ['pending', 'confirmed', 'failed'];
       const hash = "ox"
       const randomToken = tokens[Math.floor(Math.random() * tokens.length)];
@@ -44,7 +73,7 @@ export const TransactionsPage: React.FC = () => {
           quantity: Math.floor(Math.random() * 5) + 1,
           createdAt: randomTimestamp
         }],
-        total: randomAmount,
+        total: randomAmount.toString(),
         hash: "0x",
         token: randomToken,
         chain: randomChain,
@@ -240,40 +269,17 @@ export const TransactionsPage: React.FC = () => {
                 </td>
               </tr>
             ) : (
-              filteredTransactions.map((transaction) => (
-                <tr key={transaction.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {formatDate(transaction.timestamp)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {transaction.id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                    {formatCurrency(transaction.total)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <TokenBadge token={transaction.token} size="sm" />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <ChainBadge chain={transaction.chain} size="sm" />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(transaction.status)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    {transaction.txHash && (
-                      <a 
-                        href={getEtherscanLink(transaction.chain, transaction.txHash)} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center"
-                      >
-                        View <ExternalLink className="ml-1 h-3 w-3" />
-                      </a>
-                    )}
-                  </td>
-                </tr>
-              ))
+
+              <>
+              {[...txlen.entries()].map(([key, value]) => (
+                    <TransactionRow getStatusBadge={getStatusBadge} 
+                     getEtherscanLink={getEtherscanLink}
+                  key={key} 
+                  id={value}
+                />
+                  ))}
+              </>
+              
             )}
           </tbody>
         </table>

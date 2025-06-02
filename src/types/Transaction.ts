@@ -1,3 +1,6 @@
+
+export type Token = '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' | '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' | '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345'
+
 export interface BaseTransaction {
   blockNumber: string
   timeStamp: string
@@ -83,7 +86,7 @@ export interface Transaction {
   timestamp?: number
   status?: string
   date?: string
-  token?: string
+  token?: Token
   chain?: string
   explorerUrlTx?: string
   actions?: {

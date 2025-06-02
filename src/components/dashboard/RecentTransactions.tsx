@@ -62,7 +62,12 @@ export const RecentTransactions: React.FC<RecentTransactionsProps> = ({ transact
                       {formatCurrency(Number(transaction?.total) || 0)}
                     </td>
                     <td className="px-4 py-3">
-                      <TokenBadge token={transaction?.token} size="sm" />
+                    <TokenBadge token={
+                    transaction?.token === '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
+                    transaction?.token === '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
+                    transaction?.token === '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
+                    transaction?.token || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' // Fallback to USDC
+                  } size="sm" />
                     </td>
                     <td className="px-4 py-3">
                       <ChainBadge chain={transaction?.chain} size="sm" />

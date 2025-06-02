@@ -34,9 +34,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const [countdown, setCountdown] = useState(300); 
   const [txHash, setTxHash] = useState<string | null>(null);
   const [isPaymentClicked, setIsPaymentClicked] = useState(false);
-  const [transfers, setTransfers] = useState([]);
   const [address, setAddress] = useState<string>('')
-  const [isListening, setIsListening] = useState(false);
   const [userOpHash, setUserOpHash] = useState<string | null>('');
 
   const [txStatus, setTxStatus] = useState('');
@@ -103,6 +101,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const calculateTotal = () => {
     return items.reduce((total, item) => total + item.price * item.quantity, 0);
   };
+
+  const getId = () => {
+    items.forEach((item) => {
+      console.log(item.id.toString()); // Access item.id here
+    });
+  };
   
   const total = calculateTotal();
   
@@ -118,42 +122,37 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   };
   
   const isPaymentConfirm = async () => {
-    
-    const success = Math.random() > 0.2; // 80% success rate
-    if (success) {
-      setStatus('confirmed');
-      setTxHash('0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef');
-    } else {
-      setStatus('failed');
-    }
-
     try {
+      const itemIds = items.map((item) => item.id);
+      
+      const quatity = items.map((item) => item.quantity);
       const resultExcute = await execute({
-        function: 'addMerchantNotAdmin',
+        function: 'acceptPurchaseProduct',
         contractAddress: contractAddress,
         abi: POSAbi,
-        params: [address],
+        params: [itemIds.toString(), quatity, itemIds.toString()],
         value: 0,
       });
 
       const result = await waitForUserOpResult();
-          setUserOpHash(result?.userOpHash);
-          setIsPolling(true);
-          console.log(result)
-    
-          if (result.result === true) {
-            setTxStatus('Success!');
-            setIsPolling(false);
-          } else if (result.transactionHash) {
-            setTxStatus('Transaction hash: ' + result.transactionHash);
-          }
+      setUserOpHash(result?.userOpHash);
+      setIsPolling(true);
+      console.log(result);
 
+      if (result.result === true) {
+        setTxStatus('Success!');
+        setStatus('confirmed');
+        setIsPolling(false);
+      } else if (result.transactionHash) {
+        setTxStatus('Transaction hash: ' + result.transactionHash);
+      }
       setIsPaymentClicked(true);
-      setAddress('')
+      setAddress('');
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      setStatus('failed');
     }
-  }
+  };
   const renderStatusIndicator = () => {
     switch (status) {
       case 'generating':
@@ -215,7 +214,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   >
                     Confirm Payment
                   </button>
+
                 </div>
+                <button onClick={getId}>GetId</button>
 
             </div>
             

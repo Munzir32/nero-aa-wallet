@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChainType, TokenType, CartItem } from '../types/Pos';
+import { ChainType, TokenType, CartItem, Token } from '../types/Pos';
 import { Button } from '../components/ui/Button';
 import { QRCode } from '../components/ui/QRCode';
 import { TokenBadge } from '../components/ui/TokenBadge';
@@ -11,7 +11,7 @@ import { Wallet, AlertCircle, CheckCircle, Clock3 } from 'lucide-react';
 export const CheckoutPage: React.FC = () => {
   const [paymentStatus, setPaymentStatus] = useState<'initial' | 'connecting' | 'pending' | 'confirmed' | 'failed'>('initial');
   const [selectedChain] = useState<ChainType>('ethereum');
-  const [selectedToken] = useState<TokenType>('USDC');
+  const [selectedToken] = useState<Token>('0xC86Fed58edF0981e927160C50ecB8a8B05B32fed');
   const [countdown, setCountdown] = useState(300); // 5 minutes in seconds
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   
@@ -136,7 +136,12 @@ export const CheckoutPage: React.FC = () => {
               </p>
               <div className="text-2xl font-bold text-gray-900 dark:text-white flex items-center justify-center">
                 {formatCurrency(total)}
-                <TokenBadge token={selectedToken} className="ml-2" />
+                <TokenBadge token={
+                  selectedToken === '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
+                  selectedToken === '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
+                  selectedToken === '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
+                  selectedToken || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' // Fallback to USDC 
+                } className="ml-2" />
               </div>
             </div>
             

@@ -28,3 +28,27 @@ export const useReadProductLen = () => {
 export const useGetProductDetails = () => {
     
 }
+
+
+export const useReadTransaction = (id: string) => {
+    const { data: posTransaction } = useReadContract({
+        abi: POSAbi,
+        address: contractAddress,
+        functionName: "payments",
+        args: [id],
+    })
+
+    return { posTransaction }
+}
+
+
+export const useReadTransactionLen = () => {
+    const { data: posTransactionLen } = useReadContract({
+        abi: POSAbi,
+        address: contractAddress,
+        functionName: "paymentIDCount",
+        args: [],
+    })
+
+    return { posTransactionLen }
+}

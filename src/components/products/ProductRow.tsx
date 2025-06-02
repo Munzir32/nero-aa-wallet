@@ -18,9 +18,10 @@ export const ProductRow: React.FC<ProductRowProps> = ({ id, onEdit, onDelete }) 
 
 
   const { posproduct } = useReadProduct(id)
+  
   // const { posproductLen } = useReadProductLen()
-  console.log(posproduct, "pos product")
-  // console.log(posproductLen, "product len")
+  // console.log(posproduct, "pos product")
+  
 
   const productFetch = useCallback(async () => {
     if (!posproduct || !Array.isArray(posproduct)) {
@@ -83,7 +84,14 @@ export const ProductRow: React.FC<ProductRowProps> = ({ id, onEdit, onDelete }) 
         </div>
       </td>
       <td className="px-6 py-4 whitespace-nowrap">
-        <TokenBadge token={products?.token === "0xC86Fed58edF0981e927160C50ecB8a8B05B32fed" ? "USDC" : products?.token === "0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74" ? "USDC" : "USDC"} />
+        <TokenBadge 
+        token={
+          products?.token === '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
+                products?.token === '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
+                products?.token === '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
+                products?.token || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' // Fallback to USDC 
+        } 
+        />
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         <button

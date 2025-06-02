@@ -25,6 +25,7 @@ export const POSPage: React.FC = () => {
   
 
   const { posproductLen: productLen } = useReadProductLen()
+  console.log(productLen, "len");
 
   useEffect(() => {
     const mockProducts: Product[] = [
