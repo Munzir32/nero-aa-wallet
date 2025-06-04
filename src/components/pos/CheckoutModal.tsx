@@ -176,12 +176,12 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
               <div className="text-xl font-bold text-gray-900 dark:text-white flex items-center justify-center">
                 {formatCurrency(total)}
-                {/* <TokenBadge token={
+                <TokenBadge token={
                     token === 'USDC' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
                     token === 'USDT' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
                     token === 'DAI' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
                     token
-                  }  className="ml-2" /> */}
+                  }  className="ml-2" />
               </div>
               <div className="flex items-center justify-center mt-2">
                 <ChainBadge size='sm' />
