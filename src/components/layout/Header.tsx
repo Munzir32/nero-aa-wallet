@@ -35,7 +35,7 @@ export const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const navItems = [
-    { to: '/dashboard', label: 'Dashboard' },
+    { to: '/', label: 'Dashboard' },
     { to: '/pos', label: 'Terminal' },
     { to: '/products', label: 'Products' },
     { to: '/transactions', label: 'Transactions' },
