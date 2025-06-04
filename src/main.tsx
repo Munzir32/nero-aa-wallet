@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <Route path="/transactions" element={<TransactionsPage />} />
     <Route path="/settings" element={<SettingsPage />} />
     <Route path="/checkout" element={<CheckoutPage />} />
-    <Route path="/admin/add-merchant" element={<AddMerchantModal />} />
+    <Route path="/admin/add-merchant" element={<AddMerchatPage />} />
     <Route path="/sample" element={<Sample />} />
         </Routes>
       </Router>
