@@ -69,14 +69,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ id }) => {
               <span className="text-lg font-bold text-gray-900 dark:text-white">
                 {formatCurrency(products?.price || 0)}
               </span>
-              <TokenBadge 
+              {/* <TokenBadge 
               token={
                 products?.token === '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
                 products?.token === '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
                 products?.token === '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
                 products?.token || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' // Fallback to USDC 
               }
-              />
+              /> */}
+                            {/* <TokenBadge token={
+                    products?.token === 'USDC' ? '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' :
+                    products?.token === 'USDT' ? '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74' :
+                    products?.token === 'DAI' ? '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345' :
+                    products?.token
+                  } className="ml-2" size="sm" /> */}
             </div>
           </div>
           <button
