@@ -103,8 +103,6 @@ export const ProductForm: React.FC<ProductFormProps> = ({
 
 
 
-  console.log(product, "product")
-  console.log(productIPFSDetail?.image, "image")
   
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

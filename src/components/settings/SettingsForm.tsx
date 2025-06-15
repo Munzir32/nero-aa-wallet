@@ -7,7 +7,7 @@ import { web3POSBusinessDetails } from '@/utils/ipfsUpload';
 import { useSignature, useSendUserOp } from '@/hooks';
 import POSAbi from "../../contract/abi.json"
 import { contractAddress } from '@/contract';
-
+import { Toast } from '../ui/Toast';
 
 interface SettingsProps {
   initialSettings: {
@@ -18,18 +18,29 @@ interface SettingsProps {
     contactEmail: string;
     enableOffRamp: boolean;
   };
-  onSave: (settings: any) => void;
+
 }
+
 
 export const SettingsForm: React.FC<SettingsProps> = ({
   initialSettings,
-  onSave,
+ 
 }) => {
   const [settings, setSettings] = useState(initialSettings);
   const [isSaving, setIsSaving] = useState(false);
 
+
+  const [showToast, setShowToast] = React.useState(false);
+
+
+  const [userOpHash, setUserOpHash] = useState<string | null>('');
+  const [txStatus, setTxStatus] = useState('');
+  const [isPolling, setIsPolling] = useState(false);
+
+  console.log(userOpHash, txStatus, isPolling)
+
   const { AAaddress } = useSignature();
-  // const { execute, waitForUserOpResult } = useSendUserOp();
+  const { execute, waitForUserOpResult } = useSendUserOp();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setSettings({
@@ -77,14 +88,37 @@ export const SettingsForm: React.FC<SettingsProps> = ({
         supportedChains: settings.supportedChains,
         supportedTokens: settings.supportedTokens,
       })
-      
+
+      const resultExecute = await execute({
+        function: 'setBusinsessDetails',
+        contractAddress: contractAddress, 
+        abi: POSAbi,
+        params: [
+          metaURL
+          ],
+        value: 0,
+      });
+      const result = await waitForUserOpResult();
+        setUserOpHash(result?.userOpHash);
+        setIsPolling(true);
+        console.log(result);
+    
+        if (result.result === true) {
+          setTxStatus('Success!');
+          setIsPolling(false);
+        } else if (result.transactionHash) {
+          setTxStatus('Transaction hash: ' + result.transactionHash);
+        }
+        setShowToast(true);
+
     } catch (error) {
-      
+      console.log(error)
     }
         
   };
   
   return (
+    <>
     <form onSubmit={handleSubmit}>
       <div className="space-y-6">
         <Card>
@@ -219,5 +253,15 @@ export const SettingsForm: React.FC<SettingsProps> = ({
         </div>
       </div>
     </form>
+
+    <Toast
+        type="success"
+        message="Settings saved successfully!"
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+        duration={3000}
+      />
+    
+    </>
   );
 };
