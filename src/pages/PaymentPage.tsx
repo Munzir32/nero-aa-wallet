@@ -75,7 +75,8 @@ export const PaymentPage: React.FC = () => {
             Product: {product.url}
           </div>
           <div className="text-lg text-gray-700 dark:text-gray-300">
-            Price: {formatCurrency(product.price)}
+            Price:  {id}
+             {/* {formatCurrency(product.price)} */}
           </div>
           <div className="text-lg text-gray-700 dark:text-gray-300">
             Token: <TokenBadge token={product.token} />

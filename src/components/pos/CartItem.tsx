@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CartItem as CartItemType, Web3POSDetailsParams } from '../../types/Pos';
 import { formatCurrency } from '../../utils/formatters';
 import { Trash, Minus, Plus } from 'lucide-react';
+import { useReadProduct } from '@/hooks/pos/useReadProduct';
+import { fetchIPFSData } from '@/utils/IpfsDataFetch';
+import { Product } from '../../types/Pos';
 
 interface CartItemProps {
   item: CartItemType;
@@ -26,15 +29,73 @@ export const CartItemComponent: React.FC<CartItemProps> = ({
     onUpdateQuantity(item.id, item.quantity + 1);
   };
 
+
+  const [products, setProducts] = useState<Product | null>(null);
+  const [productIPFSDetail, setproductIPFSDetail] = useState<Web3POSDetailsParams | null>(null)
+
+  const { posproduct } = useReadProduct(item?.id)
+  
+  // const { posproductLen } = useReadProductLen()
+  // console.log(posproduct, "pos product")
+  
+
+  const productFetch = useCallback(async () => {
+    if (!posproduct || !Array.isArray(posproduct)) {
+      return;
+    }
+    if (!posproduct) {
+      return;
+    }
+    setProducts({
+      id: posproduct[0],
+     url: posproduct[1],
+      price: Number(posproduct[2]),
+      token: posproduct[3],
+      merchant: posproduct[4],
+      active: Boolean(posproduct[5]),
+      totalSales: Number(posproduct[6]),
+      createdAt: Number(posproduct[7])
+    })
+  }, [posproduct])
+
+
+  const fetchProductIPFSDetails = useCallback(async () => {
+    if (!posproduct || !Array.isArray(posproduct)) {
+      return;
+    }
+    if (!products?.url) return;
+
+    try {
+      const data = await fetchIPFSData(products?.url);
+      setproductIPFSDetail(data);
+    } catch (error) {
+      console.error('Error while fetching details:', error);
+    }
+  }, [products?.url]);
+
+  console.log(productIPFSDetail, "productIPFSDetail  details");
+
+  useEffect(() => {
+    fetchProductIPFSDetails();
+  }, [fetchProductIPFSDetails]);
+
+
+
+  useEffect(() => {
+    productFetch()
+  }, [productFetch])  
+
+  const imageURL = productIPFSDetail?.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+
   
 
   return (
     <div className="py-3 flex border-b border-gray-200 dark:border-gray-700 last:border-0">
-      {item.image ? (
+      {imageURL ? (
         <div 
           className="h-16 w-16 flex-shrink-0 rounded bg-gray-200 dark:bg-gray-700 mr-3"
           style={{ 
-            backgroundImage: `url(${item.image})`,
+            backgroundImage: `url(${imageURL})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center' 
           }}
@@ -47,7 +108,7 @@ export const CartItemComponent: React.FC<CartItemProps> = ({
       
       <div className="flex-1 min-w-0">
         <div className="flex justify-between">
-          <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">{item.name}</h4>
+          <h4 className="text-sm font-medium text-gray-900 dark:text-white truncate">{productIPFSDetail?.name}</h4>
           <button
             onClick={() => onRemove(item.id)}
             className="text-gray-400 hover:text-red-500 transition-colors"

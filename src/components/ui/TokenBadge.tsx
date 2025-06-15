@@ -48,14 +48,14 @@ export const TokenBadge: React.FC<TokenBadgeProps> = ({
         sizeStyles[size],
         className
       )}
-      style={{
-        backgroundColor: "blue"
-      }}
-      // style={{ backgroundColor: `${tokenDetails.color}20`, color: tokenDetails.color }}
+      // style={{
+      //   backgroundColor: "blue"
+      // }}
+      style={{ backgroundColor: `${tokenDetails.color}20`, color: tokenDetails.color }}
     >
       <span className="flex items-center">
-        {/* <span className="mr-1 font-bold">{tokenDetails.symbol}</span> */}
-        <span className="mr-1 text-white font-bold">Nero</span>
+        <span className="mr-1 font-bold">{tokenDetails.symbol}</span>
+        {/* <span className="mr-1 text-white font-bold">Nero</span> */}
 
         {showName && <span className="ml-1 text-gray-600 dark:text-gray-400">{tokenDetails.name}</span>}
       </span>
