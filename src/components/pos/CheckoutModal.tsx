@@ -153,6 +153,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       setStatus('failed');
     }
   };
+
+  const paymentLink = import.meta.env.VITE_DEV_MODE === 'true' 
+  ? 'http://localhost:3000' 
+  : 'https://web3pos.vercel.app';
   const renderStatusIndicator = () => {
     switch (status) {
       case 'generating':
@@ -166,7 +170,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         return (
           <div className="flex flex-col items-center">
             <QRCode 
-              value={`ethereum:${walletAddress}?amount=${total}&token=${token}`}
+              value={paymentLink}
               size={240}
               className="mb-4"
             />

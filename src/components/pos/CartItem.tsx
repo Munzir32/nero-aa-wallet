@@ -1,5 +1,5 @@
 import React from 'react';
-import { CartItem as CartItemType } from '../../types/Pos';
+import { CartItem as CartItemType, Web3POSDetailsParams } from '../../types/Pos';
 import { formatCurrency } from '../../utils/formatters';
 import { Trash, Minus, Plus } from 'lucide-react';
 
@@ -25,6 +25,8 @@ export const CartItemComponent: React.FC<CartItemProps> = ({
   const handleIncrement = () => {
     onUpdateQuantity(item.id, item.quantity + 1);
   };
+
+  
 
   return (
     <div className="py-3 flex border-b border-gray-200 dark:border-gray-700 last:border-0">

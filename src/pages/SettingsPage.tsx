@@ -9,7 +9,8 @@ export const SettingsPage: React.FC = () => {
   
   const initialSettings = {
     payoutWallet: '0x1234567890123456789012345678901234567890',
-    supportedChains: ['ethereum', 'polygon', 'base'] as ChainType[],
+    // supportedChains: ['ethereum', 'nero', 'base', 'optimism', 'arbitrum'] as ChainType[],
+    supportedChains: ['nero'] as ChainType[],
     supportedTokens: ['USDC', 'USDT', 'DAI'] as TokenType[],
     businessName: 'My Web3 Store',
     contactEmail: 'contact@web3store.com',

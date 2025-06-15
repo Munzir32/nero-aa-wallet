@@ -1,10 +1,10 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Product } from '../../types/Pos';
+import { ChainType, Product, TokenType } from '../../types/Pos';
 import { Edit, Trash } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatters';
 import { TokenBadge } from '@/components/ui/TokenBadge';
 import { useReadProduct } from '@/hooks/pos/useReadProduct';
-
+import { fetchIPFSData } from '@/utils/IpfsDataFetch';
 
 interface ProductRowProps {
   id: string;
@@ -12,10 +12,25 @@ interface ProductRowProps {
   onDelete: (id: string) => void;
 }
 
+interface IPFSPRODUCTDETAILS {
+  businessName: string;
+  businessAddress: string;
+  businessEmail: string;
+  supportedChains: ChainType[];
+  supportedTokens: TokenType[];
+}
+
+interface Web3POSDetailsParams {
+  image: string;
+  name: string;
+  description: string;
+}
+
+
 export const ProductRow: React.FC<ProductRowProps> = ({ id, onEdit, onDelete }) => {
 
   const [products, setProducts] = useState<Product | null>(null);
-
+  const [productIPFSDetail, setproductIPFSDetail] = useState<Web3POSDetailsParams | null>(null)
 
   const { posproduct } = useReadProduct(id)
   
@@ -32,33 +47,60 @@ export const ProductRow: React.FC<ProductRowProps> = ({ id, onEdit, onDelete }) 
     }
     setProducts({
       id: posproduct[0],
-      name: posproduct[1],
-      description: posproduct[2],
-      image: posproduct[3],
-      price: Number(posproduct[4]),
-      token: posproduct[5],
-      merchant: posproduct[6],
-      active: Boolean(posproduct[7]),
-      totalSales: Number(posproduct[8]),
-      createdAt: Number(posproduct[9])
+     url: posproduct[1],
+      price: Number(posproduct[2]),
+      token: posproduct[3],
+      merchant: posproduct[4],
+      active: Boolean(posproduct[5]),
+      totalSales: Number(posproduct[6]),
+      createdAt: Number(posproduct[7])
     })
   }, [posproduct])
+
+
+  const fetchProductIPFSDetails = useCallback(async () => {
+    if (!posproduct || !Array.isArray(posproduct)) {
+      return;
+    }
+    if (!products?.url) return;
+
+    try {
+      const data = await fetchIPFSData(products?.url);
+      setproductIPFSDetail(data);
+    } catch (error) {
+      console.error('Error while fetching details:', error);
+    }
+  }, [products?.url]);
+
+  console.log(productIPFSDetail, "productIPFSDetail  details");
+
+  useEffect(() => {
+    fetchProductIPFSDetails();
+  }, [fetchProductIPFSDetails]);
+
+
 
   useEffect(() => {
     productFetch()
   }, [productFetch])
 
 
+  const imageURL = productIPFSDetail?.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+
+
+  if(!products) return null;
+
+
   return (
     <tr key={products?.id}>
       <td className="px-6 py-4 whitespace-nowrap">
         <div className="flex items-center">
-          {products?.image ? (
+          {imageURL ? (
             <div className="h-10 w-10 flex-shrink-0 mr-3">
               <img
                 className="h-10 w-10 rounded object-cover"
-                src={products?.image}
-                alt={products?.name}
+                src={imageURL}
+                alt={productIPFSDetail?.name}
               />
             </div>
           ) : (
@@ -68,11 +110,11 @@ export const ProductRow: React.FC<ProductRowProps> = ({ id, onEdit, onDelete }) 
           )}
           <div>
             <div className="text-sm font-medium text-gray-900 dark:text-white">
-              {products?.name}
+              {productIPFSDetail?.name}
             </div>
-            {products?.description && (
+            {productIPFSDetail?.description && (
               <div className="text-sm text-gray-500 dark:text-gray-400 max-w-xs truncate">
-                {products?.description}
+                {productIPFSDetail?.description}
               </div>
             )}
           </div>

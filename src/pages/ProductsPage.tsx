@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Layout } from '../components/layout/Layout';
 import { Button } from '../components/ui/Button';
 import { ProductForm } from '../components/products/ProductForm';
-import { Product, TokenType } from '../types/Pos';
+import { Product, TokenType, CreateProduct } from '../types/Pos';
 import { Edit, Trash, PlusCircle, Search } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { formatCurrency } from '../utils/formatters';
@@ -13,7 +13,7 @@ import { contractAddress } from '@/contract';
 import { useSendUserOp } from '@/hooks';
 import { ProductRow } from '@/components/products/ProductRow';
 import {  useReadProductLen } from '@/hooks/pos/useReadProduct';
-
+import { web3POSDetails } from '@/utils/ipfsUpload';
 
 export const ProductsPage: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,71 +35,71 @@ export const ProductsPage: React.FC = () => {
   
   useEffect(() => {
     // Simulated product data
-    const mockProducts: Product[] = [
-      {
-        id: '1',
-        name: 'Basic T-Shirt',
-        description: 'Comfortable cotton t-shirt',
-        price: 24.99,
-        image: 'https://images.pexels.com/photos/5698850/pexels-photo-5698850.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        totalSales: 3,
-        createdAt: Date.now(),
-      },
-      {
-        id: '2',
-        name: 'Premium Hoodie',
-        description: 'Warm and stylish hoodie',
-        price: 59.99,
-        image: 'https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        totalSales: 3,
-        createdAt: Date.now(),
-      },
-      {
-        id: '3',
-        name: 'Wireless Headphones',
-        description: 'High-quality sound with noise cancellation',
-        price: 129.99,
-        image: 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        totalSales: 3,
-        createdAt: Date.now(),
-      },
-      {
-        id: '4',
-        name: 'Smartphone Case',
-        description: 'Protective case for your device',
-        price: 19.99,
-        image: 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        totalSales: 3,
-        createdAt: Date.now(),
-      },
-      {
-        id: '5',
-        name: 'Smart Watch',
-        description: 'Track your fitness and stay connected',
-        price: 199.99,
-        image: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        totalSales: 3,
-        createdAt: Date.now(),
-      },
-      {
-        id: '6',
-        name: 'Wireless Charger',
-        description: 'Fast charging for compatible devices',
-        price: 34.99,
-        image: 'https://images.pexels.com/photos/4526407/pexels-photo-4526407.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        totalSales: 3,
-        createdAt: Date.now(),
-      },
-    ];
+    // const mockProducts: Product[] = [
+    //   {
+    //     id: '1',
+    //     name: 'Basic T-Shirt',
+    //     description: 'Comfortable cotton t-shirt',
+    //     price: 24.99,
+    //     image: 'https://images.pexels.com/photos/5698850/pexels-photo-5698850.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     totalSales: 3,
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '2',
+    //     name: 'Premium Hoodie',
+    //     description: 'Warm and stylish hoodie',
+    //     price: 59.99,
+    //     image: 'https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     totalSales: 3,
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '3',
+    //     name: 'Wireless Headphones',
+    //     description: 'High-quality sound with noise cancellation',
+    //     price: 129.99,
+    //     image: 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     totalSales: 3,
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '4',
+    //     name: 'Smartphone Case',
+    //     description: 'Protective case for your device',
+    //     price: 19.99,
+    //     image: 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     totalSales: 3,
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '5',
+    //     name: 'Smart Watch',
+    //     description: 'Track your fitness and stay connected',
+    //     price: 199.99,
+    //     image: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     totalSales: 3,
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '6',
+    //     name: 'Wireless Charger',
+    //     description: 'Fast charging for compatible devices',
+    //     price: 34.99,
+    //     image: 'https://images.pexels.com/photos/4526407/pexels-photo-4526407.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     totalSales: 3,
+    //     createdAt: Date.now(),
+    //   },
+    // ];
     
-    setProducts(mockProducts);
-    setFilteredProducts(mockProducts);
+    // setProducts(mockProducts);
+    // setFilteredProducts(mockProducts);
   }, []);
   
   useEffect(() => {
@@ -108,12 +108,12 @@ export const ProductsPage: React.FC = () => {
       return;
     }
     
-    const filtered = products.filter(product => 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    // const filtered = products.filter(product => 
+    //   product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    //   (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    // );
     
-    setFilteredProducts(filtered);
+    // setFilteredProducts(filtered);
   }, [searchTerm, products]);
 
   const getProductLen = useCallback(() => {
@@ -158,12 +158,22 @@ export const ProductsPage: React.FC = () => {
     setProducts(currentProducts => currentProducts.filter(product => product.id !== id));
   };
   
-  const handleSubmit = async (productData: Partial<Product>) => {
+  const handleSubmit = async (productData: Partial<CreateProduct>) => {
     setIsSubmitting(true);
     
     
     try {
       if (editingProduct) {
+
+        // Upload image to IPFS and product details
+        const updloadTOIPFS = await web3POSDetails({
+          imageFile: productData.image as File,
+          name: productData.name || '',
+          description: productData.description || '',
+        })
+
+        console.log(updloadTOIPFS, "updloadTOIPFS")
+
         // Update existing product
         const resultExecute = await execute({
           function: 'updateProduct',
@@ -171,8 +181,7 @@ export const ProductsPage: React.FC = () => {
           abi: POSAbi,
           params: [
             editingProduct.id, // productId
-            productData.name, // name
-            productData.description, // description
+            updloadTOIPFS,
             productData.price, // price
             productData.token, // acceptedToken
             productData.active 
@@ -196,11 +205,21 @@ export const ProductsPage: React.FC = () => {
        
       } else {
         // Add new product
+
+        const updloadTOIPFS = await web3POSDetails({
+          imageFile: productData.image as File,
+          name: productData.name || '',
+          description: productData.description || '',
+        })
+
         const resultExecute = await execute({
           function: 'addProduct',
           contractAddress: contractAddress, 
           abi: POSAbi,
-          params: [productData.name, productData.description, productData.image, productData.price, productData.token],
+          params: [
+            updloadTOIPFS,
+             productData.price, 
+             productData.token],
           value: 0,
         });
     
@@ -309,6 +328,7 @@ export const ProductsPage: React.FC = () => {
                      {[...posproductLen.entries()].map(([key, value]) => (
                     <ProductRow id={value} key={key} 
                     onEdit={handleEditProduct}
+
                     onDelete={handleDeleteProduct} />
                   ))}
                   </>

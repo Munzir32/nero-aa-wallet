@@ -12,12 +12,13 @@ export interface Wallet {
   isConnected: boolean;
 }
 
-export interface Product {
+export interface CreateProduct {
   id: string;
   name: string;
   description?: string;
   price: number;
-  image?: string;
+  image?: File;
+  url?: string;
   merchant?: string;
   active?: boolean;
   totalSales?: number;
@@ -25,6 +26,19 @@ export interface Product {
   token: Token;
   createdAt: number;
 }
+export interface Product {
+  id: string;
+  url: string
+  price: number;
+  // image?: File;
+  merchant?: string;
+  active?: boolean;
+  totalSales?: number;
+  category?: string;
+  token: Token;
+  createdAt: number;
+}
+
 
 export interface CartItem extends Product {
   quantity: number;
@@ -48,7 +62,7 @@ export interface Transaction {
 // Chain Constants
 export const CHAIN_DETAILS: Record<ChainType, { name: string; id: number; color: string }> = {
   ethereum: { name: 'Ethereum', id: 1, color: '#627EEA' },
-  nero: { name: 'nero', id: 137, color: '#00000' },
+  nero: { name: 'Nero', id: 698, color: '#00000' },
   base: { name: 'Base', id: 8453, color: '#0052FF' },
   optimism: { name: 'Optimism', id: 10, color: '#FF0420' },
   arbitrum: { name: 'Arbitrum', id: 42161, color: '#28A0F0' }
@@ -63,8 +77,8 @@ export const TOKEN_DETAILS: Record<TokenType, { name: string; symbol: string; de
 
 export const TOKEN_DETAILS_REL = {
   '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed': { symbol: 'USDC', name: 'USD Coin' },
-  '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74': { symbol: 'USDC', name: 'USD Coin' },
-  '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345': { symbol: 'USDC', name: 'USD Coin' },
+  '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74': { symbol: 'USDT', name: 'USDT Coin' },
+  '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345': { symbol: 'DAI', name: 'DAI Coin' },
 };
 
 export interface TransactionInfo {
@@ -77,4 +91,10 @@ export interface TransactionInfo {
   processed: boolean; // Whether the transaction is processed
   productId: number; // ID of the product
   quantity: number;  // Quantity of the product
+}
+
+export interface Web3POSDetailsParams {
+  image: string;
+  name: string;
+  description: string;
 }

@@ -6,16 +6,28 @@ import { TokenBadge } from '../ui/TokenBadge';
 import { PlusCircle } from 'lucide-react';
 import { useReadProduct } from '@/hooks/pos/useReadProduct';
 import { useCart } from '../../contexts/CartContext';
+import { fetchIPFSData } from '@/utils/IpfsDataFetch';
 
 
 interface ProductCardProps {
   id: string;
 }
 
+
+interface Web3POSDetailsParams {
+  image: string;
+  name: string;
+  description: string;
+}
+
+
 export const ProductCard: React.FC<ProductCardProps> = ({ id }) => {
 
   const [products, setProducts] = useState<Product | null>(null);
   const { addItem} = useCart();
+
+  const [productIPFSDetail, setproductIPFSDetail] = useState<Web3POSDetailsParams | null>(null)
+
   
 
 
@@ -29,33 +41,59 @@ export const ProductCard: React.FC<ProductCardProps> = ({ id }) => {
     }
     setProducts({
       id: posproduct[0],
-      name: posproduct[1],
-      description: posproduct[2],
-      image: posproduct[3],
-      price: Number(posproduct[4]),
-      token: posproduct[5],
-      merchant: posproduct[6],
-      active: Boolean(posproduct[7]),
-      totalSales: Number(posproduct[8]),
-      createdAt: Number(posproduct[9])
+      url: posproduct[1],
+      price: Number(posproduct[2]),
+      token: posproduct[3],
+      merchant: posproduct[4],
+      active: Boolean(posproduct[5]),
+      totalSales: Number(posproduct[6]),
+      createdAt: Number(posproduct[7])
     })
   }, [posproduct])
+
+  const fetchProductIPFSDetails = useCallback(async () => {
+    if (!posproduct || !Array.isArray(posproduct)) {
+      return;
+    }
+    if (!products?.url) return;
+
+    try {
+      const data = await fetchIPFSData(posproduct[1]);
+      setproductIPFSDetail(data);
+    } catch (error) {
+      console.error('Error while fetching details:', error);
+    }
+  }, [products?.url]);
+
+  console.log(productIPFSDetail, "productIPFSDetail  details");
+
+  useEffect(() => {
+    fetchProductIPFSDetails();
+  }, [fetchProductIPFSDetails]);
 
   useEffect(() => {
     productFetch()
   }, [productFetch])
+
+  console.log(posproduct, "pors")
+
+
+  const imageURL = productIPFSDetail?.image?.replace('ipfs://', 'https://ipfs.io/ipfs/');
+
+  console.log(imageURL, "image")
+
 
   return (
     <Card className="overflow-hidden transition-all duration-200 hover:shadow-md cursor-pointer">
       <div
         className="h-36 bg-gray-200 dark:bg-gray-700 relative"
         style={{
-          backgroundImage: products?.image ? `url(${products?.image})` : 'none',
+          backgroundImage: imageURL ? `url(${imageURL})` : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center'
         }}
       >
-        {!products?.image && (
+        {!imageURL && (
           <div className="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400">
             No image
           </div>
@@ -64,7 +102,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ id }) => {
       <div className="p-4">
         <div className="flex justify-between items-start">
           <div>
-            <h3 className="font-medium text-gray-900 dark:text-white">{products?.name}</h3>
+            <h3 className="font-medium text-gray-900 dark:text-white">{productIPFSDetail?.name}</h3>
             <div className="mt-1 flex items-center">
               <span className="text-lg font-bold text-gray-900 dark:text-white">
                 {formatCurrency(products?.price || 0)}
@@ -92,9 +130,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ id }) => {
             <PlusCircle className="h-6 w-6" />
           </button>
         </div>
-        {products?.description && (
+        {productIPFSDetail?.description && (
           <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 line-clamp-2">
-            {products?.description}
+            {productIPFSDetail?.description}
           </p>
         )}
       </div>

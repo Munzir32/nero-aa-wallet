@@ -28,65 +28,65 @@ export const POSPage: React.FC = () => {
   console.log(productLen, "len");
 
   useEffect(() => {
-    const mockProducts: Product[] = [
-      {
-        id: '1',
-        name: 'Basic T-Shirt',
-        description: 'Comfortable cotton t-shirt',
-        price: 24.99,
-        image: 'https://images.pexels.com/photos/5698850/pexels-photo-5698850.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        createdAt: Date.now(),
-      },
-      {
-        id: '2',
-        name: 'Premium Hoodie',
-        description: 'Warm and stylish hoodie',
-        price: 59.99,
-        image: 'https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        createdAt: Date.now(),
-      },
-      {
-        id: '3',
-        name: 'Wireless Headphones',
-        description: 'High-quality sound with noise cancellation',
-        price: 129.99,
-        image: 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        createdAt: Date.now(),
-      },
-      {
-        id: '4',
-        name: 'Smartphone Case',
-        description: 'Protective case for your device',
-        price: 19.99,
-        image: 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        createdAt: Date.now(),
-      },
-      {
-        id: '5',
-        name: 'Smart Watch',
-        description: 'Track your fitness and stay connected',
-        price: 199.99,
-        image: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        createdAt: Date.now(),
-      },
-      {
-        id: '6',
-        name: 'Wireless Charger',
-        description: 'Fast charging for compatible devices',
-        price: 34.99,
-        image: 'https://images.pexels.com/photos/4526407/pexels-photo-4526407.jpeg?auto=compress&cs=tinysrgb&w=800',
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        createdAt: Date.now(),
-      },
-    ];
+    // const mockProducts: Product[] = [
+    //   {
+    //     id: '1',
+    //     name: 'Basic T-Shirt',
+    //     description: 'Comfortable cotton t-shirt',
+    //     price: 24.99,
+    //     image: 'https://images.pexels.com/photos/5698850/pexels-photo-5698850.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '2',
+    //     name: 'Premium Hoodie',
+    //     description: 'Warm and stylish hoodie',
+    //     price: 59.99,
+    //     image: 'https://images.pexels.com/photos/5698851/pexels-photo-5698851.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '3',
+    //     name: 'Wireless Headphones',
+    //     description: 'High-quality sound with noise cancellation',
+    //     price: 129.99,
+    //     image: 'https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '4',
+    //     name: 'Smartphone Case',
+    //     description: 'Protective case for your device',
+    //     price: 19.99,
+    //     image: 'https://images.pexels.com/photos/699122/pexels-photo-699122.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '5',
+    //     name: 'Smart Watch',
+    //     description: 'Track your fitness and stay connected',
+    //     price: 199.99,
+    //     image: 'https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '6',
+    //     name: 'Wireless Charger',
+    //     description: 'Fast charging for compatible devices',
+    //     price: 34.99,
+    //     image: 'https://images.pexels.com/photos/4526407/pexels-photo-4526407.jpeg?auto=compress&cs=tinysrgb&w=800',
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     createdAt: Date.now(),
+    //   },
+    // ];
     
-    setProducts(mockProducts);
-    setFilteredProducts(mockProducts);
+    // setProducts(mockProducts);
+    // setFilteredProducts(mockProducts);
   }, []);
   
   useEffect(() => {
@@ -95,12 +95,12 @@ export const POSPage: React.FC = () => {
       return;
     }
     
-    const filtered = products.filter(product => 
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-      (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    // const filtered = products.filter(product => 
+    //   product.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    //   (product.description && product.description.toLowerCase().includes(searchTerm.toLowerCase()))
+    // );
     
-    setFilteredProducts(filtered);
+    // setFilteredProducts(filtered);
   }, [searchTerm, products]);
 
   const getProductLen = useCallback(() => {
@@ -112,7 +112,7 @@ export const POSPage: React.FC = () => {
 
       const newMap = new Map<string, string>();
       if (typeof productLen === 'bigint' && productLen > 0) {
-        for (let i = 0; i < productLen; i++) {
+        for (let i = 1; i < productLen; i++) {
           newMap.set(i.toString(), i.toString()); 
         }
         setPosproductLen(new Map(newMap));
@@ -156,7 +156,7 @@ export const POSPage: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {filteredProducts.length === 0 ? (
+            {posproductLen?.size === 0 ? (
               <div className="col-span-full py-8 text-center text-gray-500 dark:text-gray-400">
                 No products found. Try a different search term.
               </div>

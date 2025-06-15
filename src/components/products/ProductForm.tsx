@@ -1,15 +1,22 @@
-import React, { useState } from 'react';
-import { Product, TokenType } from '../../types/Pos';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Product, TokenType, CreateProduct } from '../../types/Pos';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { TOKEN_DETAILS, TOKEN_DETAILS_REL } from '../../types/Pos';
-
+import { fetchIPFSData } from '@/utils/IpfsDataFetch';
 interface ProductFormProps {
   initialProduct?: Partial<Product>;
-  onSubmit: (product: Partial<Product>) => void;
+  onSubmit: (product: Partial<CreateProduct>) => void;
   onCancel: () => void;
   isSubmitting?: boolean;
 }
+
+interface Web3POSDetailsParams {
+  image: string;
+  name: string;
+  description: string;
+}
+
 
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialProduct = {},
@@ -17,17 +24,18 @@ export const ProductForm: React.FC<ProductFormProps> = ({
   onCancel,
   isSubmitting = false,
 }) => {
-  const [product, setProduct] = useState<Partial<Product>>({
+  const [product, setProduct] = useState<Partial<CreateProduct>>({
     name: '',
     price: 0,
     description: '',
-    image: '',
+    image: new File([], ''),
     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
     ...initialProduct,
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
-  
+  const [productIPFSDetail, setproductIPFSDetail] = useState<Web3POSDetailsParams | null>(null)
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     let parsedValue: string | number = value;
@@ -74,14 +82,36 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     onSubmit(product);
   };
 
-  console.log(product.token, "product")
+  const fetchProductIPFSDetails = useCallback(async () => {
+    // if (!posproduct || !Array.isArray(posproduct)) {
+    //   return;
+    // }
+    if (!product?.url) return;
+
+    try {
+      const data = await fetchIPFSData(product?.url);
+      setproductIPFSDetail(data);
+    } catch (error) {
+      console.error('Error while fetching details:', error);
+    }
+  }, [product?.url]);  
+
+
+  useEffect(() => {
+    fetchProductIPFSDetails();
+  }, [fetchProductIPFSDetails]);
+
+
+
+  console.log(product, "product")
+  console.log(productIPFSDetail?.image, "image")
   
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Input
         label="Product Name"
         name="name"
-        value={product.name}
+        value={product?.name ? product?.name : productIPFSDetail?.name}
         onChange={handleChange}
         placeholder="Enter product name"
         error={errors.name}
@@ -137,7 +167,7 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         <textarea
           id="description"
           name="description"
-          value={product.description || ''}
+          value={product.description ? product?.description : productIPFSDetail?.description}
           onChange={handleChange}
           rows={3}
           className="block w-full rounded-lg border-gray-300 dark:border-gray-600 py-2 px-3 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-white sm:text-sm"
@@ -145,14 +175,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
         />
       </div>
       
-      <Input
-        label="Image URL (optional)"
-        name="image"
-        value={product.image || ''}
-        onChange={handleChange}
-        placeholder="https://example.com/image.jpg"
-        fullWidth
-      />
+      <div className="mb-4">
+        <label 
+          htmlFor="image" 
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+        >
+          Image 
+        </label>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) {
+              setProduct((prev) => ({
+                ...prev,
+                image: file,
+              }));
+            }
+          }}
+          className="block w-full rounded-lg border-gray-300 dark:border-gray-600 py-2 px-3 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:text-white sm:text-sm"
+        />
+      </div>
       
       <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
         <Button

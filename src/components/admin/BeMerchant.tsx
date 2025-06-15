@@ -24,7 +24,7 @@ export const BeMerchant: React.FC = ({
     name: '',
     price: 0,
     description: '',
-    image: '',
+    image: new File([], ''),
     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
     // ...initialProduct,
   });
@@ -114,7 +114,7 @@ export const BeMerchant: React.FC = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <Input
-        label="Mercehant Address "
+        label="Merchant Address "
         name="name"
         value={address}
         onChange={(e) => setAddress(e.target.value)}

@@ -3,6 +3,11 @@ import { ChainType, CHAIN_DETAILS, TokenType, TOKEN_DETAILS } from '../../types/
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/Card';
+import { web3POSBusinessDetails } from '@/utils/ipfsUpload';
+import { useSignature, useSendUserOp } from '@/hooks';
+import POSAbi from "../../contract/abi.json"
+import { contractAddress } from '@/contract';
+
 
 interface SettingsProps {
   initialSettings: {
@@ -11,7 +16,6 @@ interface SettingsProps {
     supportedTokens: TokenType[];
     businessName: string;
     contactEmail: string;
-    logoUrl?: string;
     enableOffRamp: boolean;
   };
   onSave: (settings: any) => void;
@@ -23,7 +27,9 @@ export const SettingsForm: React.FC<SettingsProps> = ({
 }) => {
   const [settings, setSettings] = useState(initialSettings);
   const [isSaving, setIsSaving] = useState(false);
-  
+
+  const { AAaddress } = useSignature();
+  // const { execute, waitForUserOpResult } = useSendUserOp();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setSettings({
@@ -58,15 +64,24 @@ export const SettingsForm: React.FC<SettingsProps> = ({
     });
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      onSave(settings);
-      setIsSaving(false);
-    }, 1000);
+
+    try {
+
+      const metaURL = await web3POSBusinessDetails({
+        businessName: settings.businessName,
+        businessAddress: settings.payoutWallet,
+        businessEmail: settings.contactEmail,
+        supportedChains: settings.supportedChains,
+        supportedTokens: settings.supportedTokens,
+      })
+      
+    } catch (error) {
+      
+    }
+        
   };
   
   return (
@@ -96,14 +111,14 @@ export const SettingsForm: React.FC<SettingsProps> = ({
               fullWidth
             />
             
-            <Input
+            {/* <Input
               label="Logo URL (optional)"
               name="logoUrl"
               value={settings.logoUrl || ''}
               onChange={handleChange}
               placeholder="https://yourbusiness.com/logo.png"
               fullWidth
-            />
+            /> */}
           </CardContent>
         </Card>
         
@@ -126,27 +141,29 @@ export const SettingsForm: React.FC<SettingsProps> = ({
                 Supported Chains
               </label>
               <div className="flex flex-wrap gap-2">
-                {Object.entries(CHAIN_DETAILS).map(([key, details]) => (
-                  <div 
-                    key={key}
-                    className={`
-                      border rounded-lg px-3 py-2 cursor-pointer transition-colors
-                      ${settings.supportedChains.includes(key as ChainType)
-                        ? `bg-${details.color.substring(1)} bg-opacity-10 border-${details.color.substring(1)} text-${details.color.substring(1)}`
-                        : 'border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400'
-                      }
-                    `}
-                    onClick={() => handleChainToggle(key as ChainType)}
-                  >
-                    <div className="flex items-center">
-                      <span 
-                        className="w-2 h-2 rounded-full mr-2"
-                        style={{ backgroundColor: details.color }}
-                      ></span>
-                      {details.name}
+              {Object.entries(CHAIN_DETAILS)
+                  .filter(([key, details]) => details?.id === 698) // Filter to only include NERO chain
+                  .map(([key, details]) => (
+                    <div 
+                      key={key}
+                      className={`
+                        border rounded-lg px-3 py-2 cursor-pointer transition-colors
+                        ${settings.supportedChains.includes(key as ChainType)
+                          ? `bg-${details.color.substring(1)} bg-opacity-10 border-${details.color.substring(1)} text-${details.color.substring(1)}`
+                          : 'border-gray-300 dark:border-gray-700 text-gray-500 dark:text-gray-400'
+                        }
+                      `}
+                      onClick={() => handleChainToggle(key as ChainType)}
+                    >
+                      <div className="flex items-center">
+                        <span 
+                          className="w-2 h-2 rounded-full mr-2"
+                          style={{ backgroundColor: details.color }}
+                        ></span>
+                        {details.name}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             </div>
             

@@ -14,15 +14,15 @@ import { TransactionsPage } from './pages/TransactionsPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { CheckoutPage } from './pages/CheckoutPage'
 // import { WalletProvider } from './contexts/WalletContext'
-import AddMerchantModal from '@/components/admin/AddMerchant';
+// import AddMerchantModal from '@/components/admin/AddMerchant';
 import AddMerchatPage from './pages/AddMerchatPage'
-
+import { PaymentPage } from './pages/PaymentPage'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <CartProvider>
     <SocialWallet config={neroConfig} mode='sidebar'>
       <Router>
         <Routes>
-          {/* <Route path="/login" element={<LoginPage />} />
+
           <Route path="/" element={<DashboardPage />} />
           <Route path="/pos" element={<POSPage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -30,15 +30,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/admin/add-merchant" element={<AddMerchatPage />} />
-          <Route path="/sample" element={<Sample />} /> */}
-          <Route path="/" element={<DashboardPage />} />
-    <Route path="/pos" element={<POSPage />} />
-    <Route path="/products" element={<ProductsPage />} />
-    <Route path="/transactions" element={<TransactionsPage />} />
-    <Route path="/settings" element={<SettingsPage />} />
-    <Route path="/checkout" element={<CheckoutPage />} />
-    <Route path="/admin/add-merchant" element={<AddMerchatPage />} />
-    <Route path="/sample" element={<Sample />} />
+          <Route path="/payment/:id" element={<PaymentPage />} />
+
+          <Route path="/sample" element={<Sample />} />
         </Routes>
       </Router>
     </SocialWallet>
