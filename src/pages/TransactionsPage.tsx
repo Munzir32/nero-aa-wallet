@@ -48,103 +48,103 @@ export const TransactionsPage: React.FC = () => {
   console.log(txlen, "txlen")
 
   
-  useEffect(() => {
-    // Simulated transaction data
-    const mockTransactions: Transaction[] = Array(20).fill(null).map((_, index) => {
-      const tokens: Token[] = [
-        '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74',
-        '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345'
-      ];
-      const chains: ChainType[] = ['ethereum', 'nero', 'base', 'optimism', 'arbitrum'];
-      const statuses: ('pending' | 'confirmed' | 'failed')[] = ['pending', 'confirmed', 'failed'];
-      const hash = "ox"
-      const randomToken = tokens[Math.floor(Math.random() * tokens.length)];
-      const randomChain = chains[Math.floor(Math.random() * chains.length)];
-      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
-      const randomAmount = Math.floor(Math.random() * 50000) / 100;
-      const randomTimestamp = Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30); // Up to 30 days ago
+  // useEffect(() => {
+  //   // Simulated transaction data
+  //   const mockTransactions: Transaction[] = Array(20).fill(null).map((_, index) => {
+  //     const tokens: Token[] = [
+  //       '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+  //       '0x1dA998CfaA0C044d7205A17308B20C7de1bdCf74',
+  //       '0x5d0E342cCD1aD86a16BfBa26f404486940DBE345'
+  //     ];
+  //     const chains: ChainType[] = ['ethereum', 'nero', 'base', 'optimism', 'arbitrum'];
+  //     const statuses: ('pending' | 'confirmed' | 'failed')[] = ['pending', 'confirmed', 'failed'];
+  //     const hash = "ox"
+  //     const randomToken = tokens[Math.floor(Math.random() * tokens.length)];
+  //     const randomChain = chains[Math.floor(Math.random() * chains.length)];
+  //     const randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+  //     const randomAmount = Math.floor(Math.random() * 50000) / 100;
+  //     const randomTimestamp = Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 30); // Up to 30 days ago
       
-      return {
-        id: `tx${index + 1}`,
-        items: [{ 
-          id: `p${index + 1}`, 
-          name: `Product ${index + 1}`, 
-          price: randomAmount, 
-          token: randomToken, 
-          quantity: Math.floor(Math.random() * 5) + 1,
-          createdAt: randomTimestamp
-        }],
-        total: randomAmount.toString(),
-        hash: "0x",
-        token: randomToken,
-        chain: randomChain,
-        status: randomStatus,
-        txHash: randomStatus === 'confirmed' ? `0x${Math.random().toString(16).substring(2, 42)}` : undefined,
-        timestamp: randomTimestamp,
-        customerWallet: `0x${Math.random().toString(16).substring(2, 42)}`,
-      };
-    });
+  //     return {
+  //       id: `tx${index + 1}`,
+  //       items: [{ 
+  //         id: `p${index + 1}`, 
+  //         name: `Product ${index + 1}`, 
+  //         price: randomAmount, 
+  //         token: randomToken, 
+  //         quantity: Math.floor(Math.random() * 5) + 1,
+  //         createdAt: randomTimestamp
+  //       }],
+  //       total: randomAmount.toString(),
+  //       hash: "0x",
+  //       token: randomToken,
+  //       chain: randomChain,
+  //       status: randomStatus,
+  //       txHash: randomStatus === 'confirmed' ? `0x${Math.random().toString(16).substring(2, 42)}` : undefined,
+  //       timestamp: randomTimestamp,
+  //       customerWallet: `0x${Math.random().toString(16).substring(2, 42)}`,
+  //     };
+  //   });
     
-    // Sort by timestamp (newest first)
-    mockTransactions.sort((a, b) => b.timestamp - a.timestamp);
+  //   // Sort by timestamp (newest first)
+  //   mockTransactions.sort((a, b) => b.timestamp - a.timestamp);
     
-    setTransactions(mockTransactions);
-    setFilteredTransactions(mockTransactions);
-  }, []);
+  //   setTransactions(mockTransactions);
+  //   setFilteredTransactions(mockTransactions);
+  // }, []);
   
-  useEffect(() => {
-    let filtered = [...transactions];
+  // useEffect(() => {
+  //   let filtered = [...transactions];
     
-    // Apply search filter
-    if (searchTerm) {
-      filtered = filtered.filter(
-        tx => 
-          tx.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          (tx.customerWallet && tx.customerWallet.toLowerCase().includes(searchTerm.toLowerCase())) ||
-          (tx.txHash && tx.txHash.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
-    }
+  //   // Apply search filter
+  //   if (searchTerm) {
+  //     filtered = filtered.filter(
+  //       tx => 
+  //         tx.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         (tx.customerWallet && tx.customerWallet.toLowerCase().includes(searchTerm.toLowerCase())) ||
+  //         (tx.txHash && tx.txHash.toLowerCase().includes(searchTerm.toLowerCase()))
+  //     );
+  //   }
     
-    // Apply status filter
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(tx => tx.status === statusFilter);
-    }
+  //   // Apply status filter
+  //   if (statusFilter !== 'all') {
+  //     filtered = filtered.filter(tx => tx.status === statusFilter);
+  //   }
     
-    // Apply token filter
-    if (tokenFilter !== 'all') {
-      filtered = filtered.filter(tx => tx.token === tokenFilter);
-    }
+  //   // Apply token filter
+  //   if (tokenFilter !== 'all') {
+  //     filtered = filtered.filter(tx => tx.token === tokenFilter);
+  //   }
     
-    // Apply chain filter
-    if (chainFilter !== 'all') {
-      filtered = filtered.filter(tx => tx.chain === chainFilter);
-    }
+  //   // Apply chain filter
+  //   if (chainFilter !== 'all') {
+  //     filtered = filtered.filter(tx => tx.chain === chainFilter);
+  //   }
     
-    // Apply date filter
-    if (dateFilter !== 'all') {
-      const now = Date.now();
-      let cutoffTime: number;
+  //   // Apply date filter
+  //   if (dateFilter !== 'all') {
+  //     const now = Date.now();
+  //     let cutoffTime: number;
       
-      switch (dateFilter) {
-        case 'today':
-          cutoffTime = now - (24 * 60 * 60 * 1000);
-          break;
-        case 'week':
-          cutoffTime = now - (7 * 24 * 60 * 60 * 1000);
-          break;
-        case 'month':
-          cutoffTime = now - (30 * 24 * 60 * 60 * 1000);
-          break;
-        default:
-          cutoffTime = 0;
-      }
+  //     switch (dateFilter) {
+  //       case 'today':
+  //         cutoffTime = now - (24 * 60 * 60 * 1000);
+  //         break;
+  //       case 'week':
+  //         cutoffTime = now - (7 * 24 * 60 * 60 * 1000);
+  //         break;
+  //       case 'month':
+  //         cutoffTime = now - (30 * 24 * 60 * 60 * 1000);
+  //         break;
+  //       default:
+  //         cutoffTime = 0;
+  //     }
       
-      filtered = filtered.filter(tx => tx.timestamp >= cutoffTime);
-    }
+  //     filtered = filtered.filter(tx => tx.timestamp >= cutoffTime);
+  //   }
     
-    setFilteredTransactions(filtered);
-  }, [searchTerm, statusFilter, tokenFilter, chainFilter, dateFilter, transactions]);
+  //   setFilteredTransactions(filtered);
+  // }, [searchTerm, statusFilter, tokenFilter, chainFilter, dateFilter, transactions]);
   
   const getStatusBadge = (status: string) => {
     switch (status) {

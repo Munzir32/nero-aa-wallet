@@ -154,8 +154,11 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     }
   };
 
+  const itemIds = items.map(item => item.id).join(',');
+  const itemId = items.map(item => item.id).join(',');
+  console.log(itemIds, "ids")
   const paymentLink = import.meta.env.VITE_DEV_MODE === 'true' 
-  ? `http://localhost:3000/payment/${total}` 
+  ? `http://localhost:5173/payment/${total}/${itemIds}` 
   : `https://web3pos.vercel.app/payment/${total}`;
   const renderStatusIndicator = () => {
     switch (status) {
@@ -331,7 +334,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     {items.map((item) => (
                       <div key={item.id} className="flex justify-between text-sm py-1">
                         <span className="text-gray-700 dark:text-gray-300">
-                          {item.name} x {item.quantity}
+                          {/* {item.name}  */}
+                          x {item.quantity}
                         </span>
                         <span className="text-gray-900 dark:text-white font-medium">
                           {formatCurrency(item.price * item.quantity)}

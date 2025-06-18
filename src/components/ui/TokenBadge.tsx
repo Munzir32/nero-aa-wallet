@@ -51,7 +51,7 @@ export const TokenBadge: React.FC<TokenBadgeProps> = ({
       // style={{
       //   backgroundColor: "blue"
       // }}
-      style={{ backgroundColor: `${tokenDetails.color}20`, color: tokenDetails.color }}
+      style={{ backgroundColor: `${tokenDetails?.color}20`, color: tokenDetails?.color }}
     >
       <span className="flex items-center">
         <span className="mr-1 font-bold">{tokenDetails.symbol}</span>

@@ -12,13 +12,6 @@ interface ProductRowProps {
   onDelete: (id: string) => void;
 }
 
-interface IPFSPRODUCTDETAILS {
-  businessName: string;
-  businessAddress: string;
-  businessEmail: string;
-  supportedChains: ChainType[];
-  supportedTokens: TokenType[];
-}
 
 interface Web3POSDetailsParams {
   image: string;

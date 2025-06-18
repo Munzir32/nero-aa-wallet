@@ -17,28 +17,28 @@ export const CheckoutPage: React.FC = () => {
   
   useEffect(() => {
     // Simulate cart items (in a real app these would come from URL params or context)
-    const mockCartItems: CartItem[] = [
-      {
-        id: '1',
-        name: 'Product 1',
-        description: 'Description of product 1',
-        price: 49.99,
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        quantity: 2,
-        createdAt: Date.now(),
-      },
-      {
-        id: '2',
-        name: 'Product 2',
-        description: 'Description of product 2',
-        price: 29.99,
-        token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-        quantity: 1,
-        createdAt: Date.now(),
-      },
-    ];
+    // const mockCartItems: CartItem[] = [
+    //   {
+    //     id: '1',
+    //     // name: 'Product 1',
+    //     description: 'Description of product 1',
+    //     price: 49.99,
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     quantity: 2,
+    //     createdAt: Date.now(),
+    //   },
+    //   {
+    //     id: '2',
+    //     name: 'Product 2',
+    //     description: 'Description of product 2',
+    //     price: 29.99,
+    //     token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
+    //     quantity: 1,
+    //     createdAt: Date.now(),
+    //   },
+    // ];
     
-    setCartItems(mockCartItems);
+    // setCartItems(mockCartItems);
   }, []);
   
   useEffect(() => {
@@ -81,14 +81,14 @@ export const CheckoutPage: React.FC = () => {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
   
-  const handleConnectWallet = () => {
-    setPaymentStatus('connecting');
+  // const handleConnectWallet = () => {
+  //   setPaymentStatus('connecting');
     
-    // Simulate wallet connection delay
-    setTimeout(() => {
-      setPaymentStatus('pending');
-    }, 1500);
-  };
+  //   // Simulate wallet connection delay
+  //   setTimeout(() => {
+  //     setPaymentStatus('pending');
+  //   }, 1500);
+  // };
   
   const getStatusContent = () => {
     switch (paymentStatus) {
@@ -99,7 +99,7 @@ export const CheckoutPage: React.FC = () => {
               variant="primary"
               size="lg"
               leftIcon={<Wallet className="h-5 w-5" />}
-              onClick={handleConnectWallet}
+              // onClick={handleConnectWallet}
             >
               Connect Wallet to Pay
             </Button>
@@ -237,7 +237,8 @@ export const CheckoutPage: React.FC = () => {
                 <div key={item.id} className="flex justify-between">
                   <div>
                     <p className="text-gray-700 dark:text-gray-300">
-                      {item.name} <span className="text-gray-500 dark:text-gray-400">x{item.quantity}</span>
+                      {/* {item.name} */}
+                       <span className="text-gray-500 dark:text-gray-400">x{item.quantity}</span>
                     </p>
                   </div>
                   <p className="font-medium text-gray-900 dark:text-white">
@@ -263,7 +264,7 @@ export const CheckoutPage: React.FC = () => {
           </div>
           
           <div className="p-6">
-            {getStatusContent()}
+            {/* {getStatusContent()} */}
           </div>
         </div>
       </div>
