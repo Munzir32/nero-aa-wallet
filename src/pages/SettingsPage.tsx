@@ -108,13 +108,13 @@ export const SettingsPage: React.FC = () => {
         }}
       />
       
-      {/* <Toast
+      <Toast
         type="success"
         message="Settings saved successfully!"
         isVisible={showToast}
         onClose={() => setShowToast(false)}
         duration={3000}
-      /> */}
+      /> 
     </Layout>
   );
 };
