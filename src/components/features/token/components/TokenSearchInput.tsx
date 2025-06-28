@@ -1,5 +1,6 @@
 import React from 'react'
 import { FiSearch, FiX } from 'react-icons/fi'
+import { ThemedInput } from '@/components/ui'
 import { TokenSearchInputProps } from '@/types'
 
 const TokenSearchInput: React.FC<TokenSearchInputProps> = ({
@@ -7,10 +8,10 @@ const TokenSearchInput: React.FC<TokenSearchInputProps> = ({
   setSearchQuery,
   placeholder = 'Search Tokens...',
   className = 'relative flex-1 max-w-xs',
-  inputClassName = 'w-full pl-8 pr-8 py-1 text-sm border rounded-md focus:outline-none focus:border-black transition-all duration-300 ease-in-out',
+  inputClassName = '',
 }) => {
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value)
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value)
   }
 
   const clearSearch = () => {
@@ -19,20 +20,24 @@ const TokenSearchInput: React.FC<TokenSearchInputProps> = ({
 
   return (
     <div className={className}>
-      <input
+      <ThemedInput
         type='text'
         placeholder={placeholder}
         value={searchQuery}
         onChange={handleSearchChange}
-        className={inputClassName}
+        className='mb-0'
+        inputClassName={inputClassName}
+        icon={<FiSearch />}
+        iconPosition='left'
+        rightElement={
+          searchQuery ? (
+            <FiX
+              className='cursor-pointer hover:text-gray-600'
+              onClick={clearSearch}
+            />
+          ) : undefined
+        }
       />
-      <FiSearch className='absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400' />
-      {searchQuery && (
-        <FiX
-          className='absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer hover:text-gray-600'
-          onClick={clearSearch}
-        />
-      )}
     </div>
   )
 }

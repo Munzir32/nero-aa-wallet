@@ -3,12 +3,15 @@ import { Layout } from '../components/layout/Layout';
 import { SettingsForm } from '../components/settings/SettingsForm';
 import { ChainType, TokenType } from '../types/Pos';
 import { Toast } from '../components/ui/Toast';
-import POSAbi from "../contract/abi.json";
+import { ThemedButton } from '../components/ui/ThemedButton';
+import { IoArrowBack } from 'react-icons/io5';
+import POSAbi from "@/contract/abi.json";
 import { contractAddress } from '@/contract';
 import { useSignature } from '@/hooks';
 import { useReadContract } from 'wagmi';
 import { fetchIPFSData } from '@/utils/IpfsDataFetch';
-
+import { useScreenManager } from '@/hooks';
+import { screens } from '@/types';
 
 interface Settings {
   businessName: string;
@@ -16,96 +19,116 @@ interface Settings {
   contactEmail: string;
   supportedChains: ChainType[];
   supportedTokens: TokenType[];
-  enableOffRamp: boolean; // Add this line
-
+  enableOffRamp: boolean;
+  businessTheme: string;
 }
-
 
 export const SettingsPage: React.FC = () => {
   const [showToast, setShowToast] = React.useState(false);
-  const [setBusiness, setSetBusiness] = useState<Settings | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [businessSettings, setBusinessSettings] = useState<Settings | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { AAaddress } = useSignature();
+  const { navigateTo } = useScreenManager();
 
-  const { data: BussinessDetails } = useReadContract({
+  const { data: BusinessDetails } = useReadContract({
     address: contractAddress,
     abi: POSAbi,
     functionName: "businessProfile",
     args: [AAaddress],
   });
 
-  const fetchProductIPFSDetails = useCallback(async () => {
-    if (!BussinessDetails || !Array.isArray(BussinessDetails)) {
-      setIsLoading(false); // Stop loading if no data
+  const fetchBusinessIPFSDetails = useCallback(async () => {
+    if (!BusinessDetails || !Array.isArray(BusinessDetails)) {
+      setIsLoading(false);
       return;
     }
-    if (!BussinessDetails[1]) {
-      setIsLoading(false); // Stop loading if no URL
+    if (!BusinessDetails[1]) {
+      setIsLoading(false);
       return;
     }
 
     try {
-      const data = await fetchIPFSData(BussinessDetails[1]);
-      console.log(data, "Fetched Data");
+      const data = await fetchIPFSData(BusinessDetails[1]);
 
       const mappedData: Settings = {
         businessName: data.businessName || 'My Web3 Store',
-        payoutWallet: data.payoutWallet || '0x1234567890123456789012345678901234567890',
-        contactEmail: data.contactEmail || 'contact@web3store.com',
+        payoutWallet: data.businessAddress || AAaddress || '0x1234567890123456789012345678901234567890',
+        contactEmail: data.businessEmail || 'contact@web3store.com',
         supportedChains: data.supportedChains || ['nero'],
         supportedTokens: data.supportedTokens || ['USDC', 'USDT', 'DAI'],
         enableOffRamp: data.enableOffRamp || false,
+        businessTheme: data.businessTheme || 'market',
       };
 
-      console.log(mappedData, "Mapped Data");
-      setSetBusiness(mappedData);
+      setBusinessSettings(mappedData);
     } catch (error) {
-      console.error('Error while fetching details:', error);
+      // Set default settings on error
+      setBusinessSettings({
+        businessName: 'My Web3 Store',
+        payoutWallet: AAaddress || '0x1234567890123456789012345678901234567890',
+        contactEmail: 'contact@web3store.com',
+        supportedChains: ['nero'],
+        supportedTokens: ['USDC', 'USDT', 'DAI'],
+        enableOffRamp: false,
+        businessTheme: 'market',
+      });
     } finally {
-      setIsLoading(false); // Stop loading after fetch completes
+      setIsLoading(false);
     }
-  }, [BussinessDetails]);
+  }, [BusinessDetails, AAaddress]);
 
   useEffect(() => {
-    fetchProductIPFSDetails();
-  }, [fetchProductIPFSDetails, BussinessDetails]);
+    fetchBusinessIPFSDetails();
+  }, [fetchBusinessIPFSDetails]);
 
-  if (isLoading) {
-    return <div>Loading...</div>; // Show loading indicator
-  }
-
-  const initialSettings = {
-    payoutWallet: '0x1234567890123456789012345678901234567890',
-    // supportedChains: ['ethereum', 'nero', 'base', 'optimism', 'arbitrum'] as ChainType[],
-    supportedChains: ['nero'] as ChainType[],
-    supportedTokens: ['USDC', 'USDT', 'DAI'] as TokenType[],
+  // Default settings if no data is loaded
+  const defaultSettings: Settings = {
     businessName: 'My Web3 Store',
+    payoutWallet: AAaddress || '0x1234567890123456789012345678901234567890',
     contactEmail: 'contact@web3store.com',
-    logoUrl: '',
+    supportedChains: ['nero'],
+    supportedTokens: ['USDC', 'USDT', 'DAI'],
     enableOffRamp: false,
+    businessTheme: 'market',
   };
 
+  const handleBackClick = () => {
+    navigateTo(screens.SETTING);
+  };
 
-  
-  
-
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading settings...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
   
   return (
     <Layout>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+        <div className="flex items-center mb-4">
+          <ThemedButton
+            variant="ghost"
+            onClick={handleBackClick}
+            className="mr-3 p-2"
+          >
+            <IoArrowBack size={20} />
+          </ThemedButton>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Business Settings</h1>
         <p className="text-gray-600 dark:text-gray-400">Configure your merchant account</p>
+          </div>
+        </div>
       </div>
       
       <SettingsForm 
-        initialSettings={setBusiness || {
-          payoutWallet: '0x1234567890123456789012345678901234567890',
-          supportedChains: ['nero'] as ChainType[],
-          supportedTokens: ['USDC', 'USDT', 'DAI'] as TokenType[],
-          businessName: 'My Web3 Store',
-          contactEmail: 'contact@web3store.com',
-          enableOffRamp: false,
-        }}
+        initialSettings={businessSettings || defaultSettings}
       />
       
       <Toast

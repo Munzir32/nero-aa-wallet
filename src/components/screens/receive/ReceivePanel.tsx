@@ -2,6 +2,7 @@ import React from 'react'
 import QRCode from 'qrcode.react'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { CopyButton } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { CommonContainerPanel } from '@/components/ui/layout'
 import { BottomNavigation, HeaderNavigation } from '@/components/ui/navigation'
 import { useSignature, useScreenManager } from '@/hooks'
@@ -39,13 +40,15 @@ const ReceivePanel: React.FC = () => {
             </div>
 
             <div className='flex items-left mt-7'>
-              <button
+              <ThemedButton
                 onClick={handleHomeClick}
-                className='flex items-center text-sm text-text-primary px-2 rounded-full'
+                variant='ghost'
+                icon={<AiFillCaretLeft />}
+                iconPosition='left'
+                className='flex items-center text-sm px-2'
               >
-                <AiFillCaretLeft className='mr-2' />
                 Back
-              </button>
+              </ThemedButton>
             </div>
           </div>
         </div>

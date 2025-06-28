@@ -6,6 +6,7 @@ import '@rainbow-me/rainbowkit/styles.css'
 import '@/index.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './contexts/CartContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import { LoginPage } from './pages/LoginPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { POSPage } from './pages/POSPage'
@@ -17,7 +18,10 @@ import { CheckoutPage } from './pages/CheckoutPage'
 // import AddMerchantModal from '@/components/admin/AddMerchant';
 import AddMerchatPage from './pages/AddMerchatPage'
 import { PaymentPage } from './pages/PaymentPage'
+import { ThemeDemoPage } from './pages/ThemeDemoPage'
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ThemeProvider defaultBusinessType="market">
   <CartProvider>
     <SocialWallet config={neroConfig} mode='sidebar'>
       <Router>
@@ -29,6 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           <Route path="/transactions" element={<TransactionsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/theme" element={<ThemeDemoPage />} />
           <Route path="/admin/add-merchant" element={<AddMerchatPage />} />
           <Route path="/payment/:total/:id" element={<PaymentPage />} />
 
@@ -37,5 +42,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       </Router>
     </SocialWallet>
   </CartProvider>
-
+  </ThemeProvider>
 )

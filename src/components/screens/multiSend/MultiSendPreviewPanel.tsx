@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { AiFillCaretLeft } from 'react-icons/ai'
-import { Button } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { CommonContainerPanel } from '@/components/ui/layout'
 import { BottomNavigation, HeaderNavigation } from '@/components/ui/navigation'
 import { MultiSendContext } from '@/contexts'
@@ -48,18 +48,18 @@ const MultiSendPreviewPanel: React.FC = () => {
             </div>
 
             <div className='absolute bottom-[-30px] left-[-30px] right-[-20px] flex justify-between p-10'>
-              <Button
+              <ThemedButton
                 onClick={() => navigateTo(screens.MULTISEND)}
-                variant='text'
-                icon={AiFillCaretLeft}
+                variant='ghost'
+                icon={<AiFillCaretLeft />}
                 iconPosition='left'
-                className='flex items-center text-sm text-text-primary px-2 mt-2 rounded-full'
+                className='flex items-center text-sm px-2 mt-2'
               >
                 Back
-              </Button>
-              <Button onClick={handleNext} variant='primary' className='px-6 py-2'>
+              </ThemedButton>
+              <ThemedButton onClick={handleNext} variant='primary' className='px-6 py-2'>
                 Next
-              </Button>
+              </ThemedButton>
             </div>
           </div>
         </div>

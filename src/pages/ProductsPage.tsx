@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Layout } from '../components/layout/Layout';
-import { Button } from '../components/ui/Button';
+import { ThemedButton } from '../components/ui/ThemedButton';
 import { ProductForm } from '../components/products/ProductForm';
 import { Product, TokenType, CreateProduct } from '../types/Pos';
 import { Edit, Trash, PlusCircle, Search } from 'lucide-react';
 import { Card, CardContent } from '../components/ui/Card';
 import { formatCurrency } from '../utils/formatters';
 import { TokenBadge } from '../components/ui/TokenBadge';
-import { Input } from '../components/ui/Input';
+import { ThemedInput } from '../components/ui/ThemedInput';
 import POSAbi from "../contract/abi.json"
 import { contractAddress } from '@/contract';
 import { useSendUserOp } from '@/hooks';
@@ -261,83 +261,83 @@ export const ProductsPage: React.FC = () => {
           <p className="text-gray-600 dark:text-gray-400">Manage your product catalog</p>
         </div>
         
-        <Button
+        <ThemedButton
           variant="primary"
-          leftIcon={<PlusCircle className="h-4 w-4" />}
+          icon={<PlusCircle className="h-4 w-4" />}
+          iconPosition="left"
           onClick={handleAddProduct}
-          className="mt-4 sm:mt-0"
         >
           Add Product
-        </Button>
+        </ThemedButton>
       </div>
       
-      {showForm ? (
-        <Card>
-          <CardContent className="p-6">
-            <h2 className="text-xl font-semibold mb-4">
-              {editingProduct ? 'Edit Product' : 'Add New Product'}
-            </h2>
-            <ProductForm
-              initialProduct={editingProduct || {}}
-              onSubmit={handleSubmit}
-              onCancel={handleCancelForm}
-              isSubmitting={isSubmitting}
-            />
-          </CardContent>
-        </Card>
-      ) : (
-        <>
-          <div className="mb-4">
-            <Input
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              icon={<Search className="h-5 w-5" />}
-              fullWidth
-            />
-          </div>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Product
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Price
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Token
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
-                {posproductLen?.size === 0 ? (
-                  <tr>
-                    <td colSpan={4} className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                      No products found. Try a different search term or add a new product.
-                    </td>
-                  </tr>
-                ) : (
-                
-                  <>
-                     {[...posproductLen.entries()].map(([key, value]) => (
-                    <ProductRow id={value} key={key} 
-                    onEdit={handleEditProduct}
+      <div className="mb-6">
+        <ThemedInput
+          placeholder="Search products..."
+          value={searchTerm}
+          onChange={setSearchTerm}
+          icon={<Search className="h-4 w-4" />}
+          iconPosition="left"
+          fullWidth
+        />
+      </div>
+      
+      {showForm && (
+        <ProductForm
+          initialProduct={editingProduct || undefined}
+          onSubmit={handleSubmit}
+          onCancel={handleCancelForm}
+          isSubmitting={isSubmitting}
+        />
+      )}
+      
+      {!showForm && (
+        <div className="overflow-x-auto">
+        <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-800">
+            <tr>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Product
+              </th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Price
+              </th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Token
+              </th>
+              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+            {posproductLen?.size === 0 ? (
+              <tr>
+                <td colSpan={4} className="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                  No products found. Try a different search term or add a new product.
+                </td>
+              </tr>
+            ) : (
+            
+              <>
+                 {[...posproductLen.entries()].map(([key, value]) => (
+                <ProductRow id={value} key={key} 
+                onEdit={handleEditProduct}
 
-                    onDelete={handleDeleteProduct} />
-                  ))}
-                  </>
-                 
-                )}
-              </tbody>
-            </table>
-          </div>
-        </>
+                onDelete={handleDeleteProduct} />
+              ))}
+              </>
+             
+            )}
+          </tbody>
+        </table>
+      </div>
+      )}
+      
+      {filteredProducts.length === 0 && !showForm && (
+        <div className="text-center py-12">
+          <p className="text-gray-500 dark:text-gray-400">No products found</p>
+        </div>
       )}
     </Layout>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { Button } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { CommonContainerPanel } from '@/components/ui/layout'
 import { BottomNavigation, HeaderNavigation } from '@/components/ui/navigation'
 import { useNFTContext, useCustomERC721Tokens, useScreenManager } from '@/hooks'
@@ -87,22 +87,22 @@ const NFTDetail: React.FC = () => {
             <p className='text-md'>{selectedNFT.tokenId}</p>
           </div>
           <div className='absolute bottom-[-30px] left-[-30px] right-[-20px] flex justify-between p-10'>
-            <Button
+            <ThemedButton
               onClick={handleClose}
-              variant='text'
-              icon={AiFillCaretLeft}
+              variant='ghost'
+              icon={<AiFillCaretLeft />}
               iconPosition='left'
-              className='flex items-center text-sm text-text-primary px-2 mt-1 rounded-full'
+              className='flex items-center text-sm px-2 mt-1'
             >
               Back
-            </Button>
-            <Button
+            </ThemedButton>
+            <ThemedButton
               onClick={() => navigateToTransfer()}
               variant='primary'
-              className='px-6 py-2 rounded-full text-white bg-primary text-sm'
+              className='px-6 py-2 text-sm'
             >
               Send
-            </Button>
+            </ThemedButton>
           </div>
         </div>
       </div>

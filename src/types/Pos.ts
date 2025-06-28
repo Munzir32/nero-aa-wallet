@@ -28,17 +28,18 @@ export interface CreateProduct {
 }
 export interface Product {
   id: string;
-  url: string
+  url: string;
   price: number;
-  // image?: File;
-  merchant?: string;
-  active?: boolean;
-  totalSales?: number;
-  category?: string;
-  token: Token;
+  token: string;
+  merchant: string;
+  active: boolean;
+  totalSales: number;
   createdAt: number;
+  businessType?: 'pharmacy' | 'market' | 'restaurant' | 'retail' | 'service';
+  category?: string;
+  description?: string;
+  image?: string;
 }
-
 
 export interface CartItem extends Product {
   quantity: number;
@@ -98,3 +99,55 @@ export interface Web3POSDetailsParams {
   name: string;
   description: string;
 }
+
+export interface BusinessTheme {
+  name: string;
+  primaryColor: string;
+  secondaryColor: string;
+  icon: string;
+  background: string;
+  accentColor: string;
+}
+
+export const BUSINESS_THEMES: Record<string, BusinessTheme> = {
+  pharmacy: {
+    name: 'Pharmacy',
+    primaryColor: '#10B981', // Green
+    secondaryColor: '#059669',
+    icon: '💊',
+    background: 'bg-green-50',
+    accentColor: '#34D399'
+  },
+  market: {
+    name: 'Market',
+    primaryColor: '#F59E0B', // Amber
+    secondaryColor: '#D97706',
+    icon: '🛒',
+    background: 'bg-amber-50',
+    accentColor: '#FBBF24'
+  },
+  restaurant: {
+    name: 'Restaurant',
+    primaryColor: '#EF4444', // Red
+    secondaryColor: '#DC2626',
+    icon: '🍽️',
+    background: 'bg-red-50',
+    accentColor: '#F87171'
+  },
+  retail: {
+    name: 'Retail',
+    primaryColor: '#8B5CF6', // Purple
+    secondaryColor: '#7C3AED',
+    icon: '🛍️',
+    background: 'bg-purple-50',
+    accentColor: '#A78BFA'
+  },
+  service: {
+    name: 'Service',
+    primaryColor: '#3B82F6', // Blue
+    secondaryColor: '#2563EB',
+    icon: '🔧',
+    background: 'bg-blue-50',
+    accentColor: '#60A5FA'
+  }
+};

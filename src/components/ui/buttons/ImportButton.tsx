@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { ImportButtonProps } from '@/types'
 
 const ImportButton: React.FC<ImportButtonProps> = ({
@@ -11,14 +11,14 @@ const ImportButton: React.FC<ImportButtonProps> = ({
   className = '',
 }) => {
   return (
-    <Button
+    <ThemedButton
       onClick={onClick}
       disabled={!isReady || isImporting}
-      variant='tertiary'
+      variant='primary'
       className={`w-full font-bold py-2 px-4 rounded mb-4 ${className}`}
     >
       {isImporting ? importingLabel : label}
-    </Button>
+    </ThemedButton>
   )
 }
 

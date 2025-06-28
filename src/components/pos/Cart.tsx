@@ -1,7 +1,7 @@
 import React from 'react';
 import { CartItem as CartItemType, TokenType } from '../../types/Pos';
 import { CartItemComponent } from './CartItem';
-import { Button } from '../ui/Button';
+import { ThemedButton } from '../ui/ThemedButton';
 import { TokenBadge } from '../ui/TokenBadge';
 import { formatCurrency } from '../../utils/formatters';
 import { ChainType } from '../../types/Pos';
@@ -42,9 +42,9 @@ export const Cart: React.FC<CartProps> = ({
       <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
         <h2 className="text-lg font-medium text-gray-900 dark:text-white">Cart</h2>
         {!isEmpty && (
-          <Button variant="ghost" size="sm" onClick={onClearCart}>
+          <ThemedButton variant="ghost" size="sm" onClick={onClearCart}>
             Clear
-          </Button>
+          </ThemedButton>
         )}
       </div>
       
@@ -90,14 +90,14 @@ export const Cart: React.FC<CartProps> = ({
           </div>
         </div>
         
-        <Button
+        <ThemedButton
           variant="primary"
           fullWidth
           disabled={isEmpty}
           onClick={onCheckout}
         >
           Checkout
-        </Button>
+        </ThemedButton>
       </div>
     </div>
   );

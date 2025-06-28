@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ChainType, TokenType, CartItem, Token } from '../types/Pos';
-import { Button } from '../components/ui/Button';
+import { ThemedButton } from '../components/ui/ThemedButton';
 import { QRCode } from '../components/ui/QRCode';
 import { TokenBadge } from '../components/ui/TokenBadge';
 import { ChainBadge } from '../components/ui/ChainBadge';
@@ -95,14 +95,15 @@ export const CheckoutPage: React.FC = () => {
       case 'initial':
         return (
           <div className="mt-8 flex flex-col items-center">
-            <Button
+            <ThemedButton
               variant="primary"
               size="lg"
-              leftIcon={<Wallet className="h-5 w-5" />}
+              icon={<Wallet className="h-5 w-5" />}
+              iconPosition="left"
               // onClick={handleConnectWallet}
             >
               Connect Wallet to Pay
-            </Button>
+            </ThemedButton>
             <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
               Connect your wallet to complete this purchase
             </p>
@@ -180,13 +181,13 @@ export const CheckoutPage: React.FC = () => {
               </p>
             </div>
             
-            <Button
+            <ThemedButton
               variant="outline"
               className="mt-6"
               onClick={() => window.location.href = '/'}
             >
               Return to Store
-            </Button>
+            </ThemedButton>
           </div>
         );
       
@@ -205,12 +206,12 @@ export const CheckoutPage: React.FC = () => {
               There was an issue processing your payment. Please try again.
             </p>
             
-            <Button
+            <ThemedButton
               variant="primary"
               onClick={() => setPaymentStatus('initial')}
             >
               Try Again
-            </Button>
+            </ThemedButton>
           </div>
         );
       

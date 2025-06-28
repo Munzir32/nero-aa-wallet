@@ -11,6 +11,7 @@ import { SendPanel } from '@/components/screens/Send'
 import { SendUserOpPanel } from '@/components/screens/Send'
 import { SettingPanel } from '@/components/screens/setting'
 import { TokenIndex } from '@/components/screens/Token'
+import { SettingsPage } from '@/pages/SettingsPage'
 import { screens, Screen } from '@/types'
 
 interface ScreenRendererProps {
@@ -33,6 +34,8 @@ function ScreenRenderer({ currentScreen }: ScreenRendererProps) {
       return <ReceivePanel />
     case screens.SETTING:
       return <SettingPanel />
+    case screens.SETTINGS_PAGE:
+      return <SettingsPage />
     case screens.NFT:
       return <ExpandedTabContent tab='NFTs' />
     case screens.NFTDETAIL:

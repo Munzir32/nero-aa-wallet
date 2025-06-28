@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CartItem, TokenType, ChainType } from '../../types/Pos';
 import { formatCurrency } from '../../utils/formatters';
-import { Button } from '../ui/Button';
+import { ThemedButton } from '../ui/ThemedButton';
 // import { QRCode } from '../ui/QRCode';
 import { TokenBadge } from '../ui/TokenBadge';
 import { ChainBadge } from '../ui/ChainBadge';
@@ -284,7 +284,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               There was an issue processing your payment.
             </p>
-            <Button 
+            <ThemedButton 
               variant="primary" 
               onClick={() => {
                 setStatus('generating');
@@ -293,7 +293,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               }}
             >
               Try Again
-            </Button>
+            </ThemedButton>
           </div>
         );
       default:
@@ -304,74 +304,98 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto">
-      <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-75 transition-opacity" onClick={onClose}></div>
-        
-        <div className="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-          <div className="absolute top-0 right-0 pt-4 pr-4">
-            <button
-              type="button"
-              className="rounded-md bg-white dark:bg-gray-800 text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
-              onClick={onClose}
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-          
-          <div className="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6">
-            <div className="mt-3 text-center sm:mt-0 sm:text-left">
-              <h3 className="text-lg font-semibold leading-6 text-gray-900 dark:text-white mb-4">
-                Complete Payment
-              </h3>
+    <>
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Checkout</h2>
+                <ThemedButton
+                  variant="ghost"
+                  size="sm"
+                  icon={<X className="h-5 w-5" />}
+                  onClick={onClose}
+                >
+                  Close
+                </ThemedButton>
+              </div>
               
-              {items.length > 0 && (
-                <div className="mt-2 mb-4">
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    Order Summary ({items.length} {items.length === 1 ? 'item' : 'items'})
+              {renderStatusIndicator()}
+              
+              {status === 'pending' && (
+                <div className="mt-6 space-y-4">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500 dark:text-gray-400">Time remaining:</span>
+                    <span className="font-mono">{formatCountdown(countdown)}</span>
                   </div>
-                  <div className="max-h-32 overflow-y-auto mb-2">
-                    {items.map((item) => (
-                      <div key={item.id} className="flex justify-between text-sm py-1">
-                        <span className="text-gray-700 dark:text-gray-300">
-                          {/* {item.name}  */}
-                          x {item.quantity}
-                        </span>
-                        <span className="text-gray-900 dark:text-white font-medium">
-                          {formatCurrency(item.price * item.quantity)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="border-t border-gray-200 dark:border-gray-700 pt-2 flex justify-between">
-                    <span className="font-medium text-gray-900 dark:text-white">Total</span>
-                    <span className="font-bold text-gray-900 dark:text-white">
-                      {formatCurrency(total)}
-                    </span>
+                  
+                  <div className="flex space-x-2">
+                    <ThemedButton
+                      variant="outline"
+                      fullWidth
+                      icon={<Copy className="h-4 w-4" />}
+                      iconPosition="left"
+                      onClick={() => copyToClipboard(paymentLink)}
+                    >
+                      Copy Link
+                    </ThemedButton>
+                    <ThemedButton
+                      variant="primary"
+                      fullWidth
+                      onClick={isPaymentConfirm}
+                    >
+                      Confirm Payment
+                    </ThemedButton>
                   </div>
                 </div>
               )}
               
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-                {renderStatusIndicator()}
-              </div>
+              {status === 'confirmed' && (
+                <div className="mt-6">
+                  <ThemedButton
+                    variant="outline"
+                    fullWidth
+                    onClick={onClose}
+                  >
+                    Close
+                  </ThemedButton>
+                </div>
+              )}
+              
+              {status === 'failed' && (
+                <div className="mt-6 space-y-4">
+                  <p className="text-red-600 dark:text-red-400 text-center">
+                    Payment failed or timed out. Please try again.
+                  </p>
+                  <div className="flex space-x-2">
+                    <ThemedButton
+                      variant="outline"
+                      fullWidth
+                      onClick={onClose}
+                    >
+                      Close
+                    </ThemedButton>
+                    <ThemedButton
+                      variant="primary"
+                      fullWidth
+                      icon={<RefreshCw className="h-4 w-4" />}
+                      iconPosition="left"
+                      onClick={() => {
+                        setStatus('generating');
+                        setCountdown(300);
+                        setIsPaymentClicked(false);
+                      }}
+                    >
+                      Try Again
+                    </ThemedButton>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          
-          <div className="bg-gray-50 dark:bg-gray-900 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            {status === 'confirmed' && (
-              <Button variant="primary" onClick={onClose}>
-                Done
-              </Button>
-            )}
-            {status !== 'confirmed' && status !== 'generating' && (
-              <Button variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-            )}
-          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };

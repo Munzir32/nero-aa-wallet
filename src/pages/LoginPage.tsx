@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 // import { useWallet } from '../contexts/WalletContext';
-import { Button } from '../components/ui/Button';
+import { ThemedButton } from '../components/ui/ThemedButton';
 import { ChainBadge } from '../components/ui/ChainBadge';
 import { Wallet, LogIn } from 'lucide-react';
 import { useAccount } from 'wagmi';
@@ -35,25 +35,27 @@ export const LoginPage: React.FC = () => {
         
         <div className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm space-y-4">
-            <Button
+            <ThemedButton
               variant="primary"
               fullWidth
               size="lg"
-              leftIcon={<Wallet className="h-5 w-5" />}
+              icon={<Wallet className="h-5 w-5" />}
+              iconPosition="left"
               onClick={handleConnect}
             >
               Connect with MetaMask
-            </Button>
+            </ThemedButton>
             
-            <Button
+            <ThemedButton
               variant="outline"
               fullWidth
               size="lg"
-              leftIcon={<LogIn className="h-5 w-5" />}
+              icon={<LogIn className="h-5 w-5" />}
+              iconPosition="left"
               onClick={handleConnect}
             >
               Connect with WalletConnect
-            </Button>
+            </ThemedButton>
           </div>
           
           <div className="mt-6">

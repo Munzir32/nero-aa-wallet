@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AiFillCaretLeft } from 'react-icons/ai'
-import { Button } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { LoadingScreen } from '@/components/ui/feedback'
 import { CommonContainerPanel } from '@/components/ui/layout'
 import { BottomNavigation, HeaderNavigation } from '@/components/ui/navigation'
@@ -219,25 +219,24 @@ const MultiSendConfirmPanel: React.FC = () => {
               )}
             </div>
 
-            <div className='fixed bottom-14 left-0 right-0 flex justify-between p-10'>
-              <Button
+            <div className='absolute bottom-[-30px] left-[-30px] right-[-20px] flex justify-between p-10'>
+              <ThemedButton
                 onClick={() => navigateTo(screens.MULTISENDDETAIL)}
-                variant='text'
-                icon={AiFillCaretLeft}
+                variant='ghost'
+                icon={<AiFillCaretLeft />}
                 iconPosition='left'
-                disabled={loading || completed}
-                className='flex items-center text-sm text-text-primary px-2 mt-2 rounded-full'
+                className='flex items-center text-sm px-2 mt-2'
               >
                 Back
-              </Button>
-              <Button
+              </ThemedButton>
+              <ThemedButton
                 onClick={handleConfirm}
                 disabled={loading || completed}
                 variant='primary'
                 className='px-6 py-2'
               >
                 {loading ? 'Processing...' : 'Confirm'}
-              </Button>
+              </ThemedButton>
             </div>
           </div>
         </div>

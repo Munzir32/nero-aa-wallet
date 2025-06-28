@@ -3,7 +3,7 @@ import { Layout } from '../components/layout/Layout';
 import { Transaction, ChainType, Token } from '../types/Pos';
 
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { Input } from '../components/ui/Input';
+import { ThemedInput } from '../components/ui/ThemedInput';
 import {  Search, Filter, Calendar } from 'lucide-react';
 import { TransactionRow } from '@/components/transactions/TransactionRow';
 import { useReadTransactionLen, useReadTransaction } from '@/hooks/pos/useReadProduct';
@@ -177,11 +177,12 @@ export const TransactionsPage: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <Input
+            <ThemedInput
               placeholder="Search by ID, wallet, or hash..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={setSearchTerm}
               icon={<Search className="h-5 w-5" />}
+              iconPosition="left"
               fullWidth
             />
             

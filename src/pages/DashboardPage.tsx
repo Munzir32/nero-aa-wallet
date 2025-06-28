@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Layout } from '../components/layout/Layout';
 import { SalesSummary } from '../components/dashboard/SalesSummary';
 // import { RecentTransactions } from '../components/dashboard/RecentTransactions';
-import { Button } from '../components/ui/Button';
+import { ThemedButton } from '../components/ui/ThemedButton';
 import { useNavigate } from 'react-router-dom';
-import { PlusCircle, ShoppingBag, Wallet } from 'lucide-react';
-import { Transaction } from '../types/Pos';
+import { PlusCircle, ShoppingBag, Settings } from 'lucide-react';
 
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -33,34 +32,38 @@ export const DashboardPage: React.FC = () => {
         </div>
         
         <div className="mt-4 sm:mt-0 flex flex-wrap gap-2">
-          <Button
+          <ThemedButton
             variant="primary"
-            leftIcon={<ShoppingBag className="h-4 w-4" />}
+            icon={<ShoppingBag className="h-4 w-4" />}
+            iconPosition="left"
             onClick={() => navigate('/pos')}
           >
             New Sale
-          </Button>
-          <Button
+          </ThemedButton>
+          <ThemedButton
             variant="outline"
-            leftIcon={<PlusCircle className="h-4 w-4" />}
+            icon={<PlusCircle className="h-4 w-4" />}
+            iconPosition="left"
             onClick={() => navigate('/products')}
           >
             Add Product
-          </Button>
-          <Button
+          </ThemedButton>
+          <ThemedButton
             variant="outline"
-            leftIcon={<PlusCircle className="h-4 w-4" />}
+            icon={<PlusCircle className="h-4 w-4" />}
+            iconPosition="left"
             onClick={() => navigate("/admin/add-merchant")}
           >
             Add Merchant
-          </Button>
-          <Button
+          </ThemedButton>
+          <ThemedButton
             variant="ghost"
-            leftIcon={<Wallet className="h-4 w-4" />}
+            icon={<Settings className="h-4 w-4" />}
+            iconPosition="left"
             onClick={() => navigate('/settings')}
           >
-            Withdraw Funds
-          </Button>
+            Settings
+          </ThemedButton>
         </div>
       </div>
       

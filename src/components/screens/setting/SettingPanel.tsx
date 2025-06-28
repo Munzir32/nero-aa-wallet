@@ -2,7 +2,8 @@ import React from 'react'
 import { AiOutlineQuestionCircle } from 'react-icons/ai'
 import { LuImport } from 'react-icons/lu'
 import { MdOutlinePrivacyTip } from 'react-icons/md'
-import { Button } from '@/components/ui/buttons'
+import { IoSettingsOutline } from 'react-icons/io5'
+import { ThemedButton } from '@/components/ui'
 import { CommonContainerPanel } from '@/components/ui/layout'
 import { BottomNavigation, HeaderNavigation } from '@/components/ui/navigation'
 import { useSettingUrls } from '@/constants/settingListURLs'
@@ -23,8 +24,13 @@ const SettingItem: React.FC<SettingItemProps> = ({ icon, label, onClick }) => (
 const SettingPanel: React.FC = () => {
   const { navigateTo } = useScreenManager()
   const { CONTACT_US_DISCORD_URL, PRIVACY_POLICY_URL, SERVICE_TERMS_URL } = useSettingUrls()
+  
   const handleHomeClick = () => {
     navigateTo(screens.HOME)
+  }
+
+  const handleBusinessSettingsClick = () => {
+    navigateTo(screens.SETTINGS_PAGE)
   }
 
   return (
@@ -33,6 +39,11 @@ const SettingPanel: React.FC = () => {
       <div className='flex flex-col items-center flex-grow px-3 bg-bg-primary mt-5'>
         <div className='w-full bg-white rounded-md border border-border-primary p-4 mb-4'>
           <label className='block text-center text-1sm text-black'>Settings</label>
+          <SettingItem
+            icon={<IoSettingsOutline size={24} />}
+            label='Business Settings'
+            onClick={handleBusinessSettingsClick}
+          />
           <SettingItem
             icon={<AiOutlineQuestionCircle size={24} />}
             label='Contact us'
@@ -49,13 +60,13 @@ const SettingPanel: React.FC = () => {
             onClick={() => window.open(SERVICE_TERMS_URL, '_blank')}
           />
           <div className='w-full pt-5 flex justify-center'>
-            <Button
+            <ThemedButton
               onClick={handleHomeClick}
               variant='primary'
-              className='px-6 py-2 rounded-full bg-black text-sm text-white'
+              className='px-6 py-2 text-sm'
             >
               close
-            </Button>
+            </ThemedButton>
           </div>
         </div>
       </div>

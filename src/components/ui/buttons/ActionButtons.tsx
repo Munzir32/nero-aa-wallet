@@ -1,6 +1,6 @@
 import React from 'react'
 import { AiFillCaretLeft } from 'react-icons/ai'
-import { Button } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { ActionButtonsProps } from '@/types'
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -18,23 +18,23 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   if (onBack && onNext) {
     return (
       <div className='flex justify-between mt-4'>
-        <Button
+        <ThemedButton
           onClick={onBack}
-          variant='text'
-          icon={AiFillCaretLeft}
+          variant='ghost'
+          icon={<AiFillCaretLeft />}
           iconPosition='left'
-          className='flex items-center text-sm text-text-primary px-2 mt-2'
+          className='flex items-center text-sm px-2 mt-2'
         >
           Back
-        </Button>
-        <Button
+        </ThemedButton>
+        <ThemedButton
           onClick={onNext}
           disabled={isNextDisabled}
           variant={nextVariant}
           className={`px-6 py-2`}
         >
           {nextLabel}
-        </Button>
+        </ThemedButton>
       </div>
     )
   }
@@ -42,31 +42,31 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   if (onCancel && onConfirm) {
     return (
       <div className='flex justify-between mt-4'>
-        <Button onClick={onCancel} variant='secondary' className='px-6 py-2'>
+        <ThemedButton onClick={onCancel} variant='outline' className='px-6 py-2'>
           {cancelText}
-        </Button>
-        <Button
+        </ThemedButton>
+        <ThemedButton
           onClick={onConfirm}
           disabled={confirmDisabled}
           variant='primary'
           className='px-6 py-2'
         >
           {confirmText}
-        </Button>
+        </ThemedButton>
       </div>
     )
   }
 
   return (
     <div className='flex justify-end mt-4'>
-      <Button
+      <ThemedButton
         onClick={onNext}
         disabled={isNextDisabled}
         variant={nextVariant}
         className='px-6 py-2'
       >
         {nextLabel}
-      </Button>
+      </ThemedButton>
     </div>
   )
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Product, TokenType, CreateProduct } from '../../types/Pos';
-import { Button } from '../ui/Button';
-import { Input } from '../ui/Input';
+import { Product, TokenType, CreateProduct, Token } from '../../types/Pos';
+import { ThemedButton } from '../ui/ThemedButton';
+import { ThemedInput } from '../ui/ThemedInput';
 import { TOKEN_DETAILS, TOKEN_DETAILS_REL } from '../../types/Pos';
 import { fetchIPFSData } from '@/utils/IpfsDataFetch';
+
 interface ProductFormProps {
   initialProduct?: Partial<Product>;
   onSubmit: (product: Partial<CreateProduct>) => void;
@@ -17,7 +18,6 @@ interface Web3POSDetailsParams {
   description: string;
 }
 
-
 export const ProductForm: React.FC<ProductFormProps> = ({
   initialProduct = {},
   onSubmit,
@@ -28,9 +28,15 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     name: '',
     price: 0,
     description: '',
-    image: new File([], ''),
-    token: '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed',
-    ...initialProduct,
+    ...(initialProduct.id ? {
+      ...initialProduct,
+      image: undefined, // Reset image to undefined since we can't convert string to File
+      token: (initialProduct.token as Token) || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' as Token
+    } : {
+      ...initialProduct,
+      image: initialProduct.image as File | undefined,
+      token: (initialProduct.token as Token) || '0xC86Fed58edF0981e927160C50ecB8a8B05B32fed' as Token
+    }),
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -96,39 +102,29 @@ export const ProductForm: React.FC<ProductFormProps> = ({
     }
   }, [product?.url]);  
 
-
   useEffect(() => {
     fetchProductIPFSDetails();
   }, [fetchProductIPFSDetails]);
 
-
-
-  
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input
+      <ThemedInput
         label="Product Name"
-        name="name"
         value={product?.name ? product?.name : productIPFSDetail?.name}
-        onChange={handleChange}
+        onChange={(value) => setProduct(prev => ({ ...prev, name: value }))}
         placeholder="Enter product name"
         error={errors.name}
-        required
         fullWidth
       />
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input
+        <ThemedInput
           label="Price"
-          name="price"
           type="number"
-          step="0.01"
-          min="0"
-          value={product.price}
-          onChange={handleChange}
+          value={product.price?.toString() || ''}
+          onChange={(value) => setProduct(prev => ({ ...prev, price: parseFloat(value) || 0 }))}
           placeholder="0.00"
           error={errors.price}
-          required
           fullWidth
         />
         
@@ -198,21 +194,19 @@ export const ProductForm: React.FC<ProductFormProps> = ({
       </div>
       
       <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <Button
-          type="button"
+        <ThemedButton
           variant="outline"
           onClick={onCancel}
           disabled={isSubmitting}
         >
           Cancel
-        </Button>
-        <Button
-          type="submit"
+        </ThemedButton>
+        <ThemedButton
           variant="primary"
-          isLoading={isSubmitting}
+          disabled={isSubmitting}
         >
-          {initialProduct.id ? 'Update Product' : 'Add Product'}
-        </Button>
+          {isSubmitting ? 'Saving...' : 'Save Product'}
+        </ThemedButton>
       </div>
     </form>
   );

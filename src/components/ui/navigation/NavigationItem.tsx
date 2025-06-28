@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTheme } from '@/contexts/ThemeContext'
 import { NavigationItemProps } from '@/types'
 
 const NavigationItem: React.FC<NavigationItemProps> = ({
@@ -10,9 +11,11 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
   variant = 'bottom',
   iconRotation = 0,
 }) => {
+  const { currentTheme } = useTheme();
+
   const getIconColor = () => {
     if (variant === 'balance') return isActive ? 'text-black' : 'text-white'
-    return isActive ? 'text-primary' : 'text-white'
+    return isActive ? 'text-white' : 'text-white'
   }
 
   const getIconSize = () => {
@@ -35,20 +38,44 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
 
   const getIconContainerClasses = () => {
     if (variant === 'balance') {
-      return `flex items-center justify-center w-14 h-8 rounded-full ${
-        isActive ? 'bg-white' : 'bg-primary'
-      }`
+      return `flex items-center justify-center w-14 h-8 rounded-full`
     }
-    return `${isActive ? 'text-primary' : ''} cursor-pointer`
+    return `${isActive ? '' : ''} cursor-pointer`
+  }
+
+  const getIconContainerStyle = () => {
+    if (variant === 'balance') {
+      return {
+        backgroundColor: isActive ? '#ffffff' : currentTheme.primaryColor,
+      }
+    }
+    return {}
+  }
+
+  const getLabelStyle = () => {
+    if (variant === 'balance') {
+      return {
+        color: currentTheme.primaryColor,
+      }
+    }
+    return {
+      color: '#ffffff',
+    }
   }
 
   return (
     <div className={`${getContainerClasses()} ${className}`} onClick={onClick}>
-      <div className={getIconContainerClasses()}>
+      <div 
+        className={getIconContainerClasses()}
+        style={getIconContainerStyle()}
+      >
         <Icon className={`${getIconSize()} ${getIconColor()}`} style={getIconStyles()} />
       </div>
       {label && (
-        <div className={`text-sm mt-0.5 ${variant === 'balance' ? 'text-primary' : 'text-white'}`}>
+        <div 
+          className={`text-sm mt-0.5`}
+          style={getLabelStyle()}
+        >
           {label}
         </div>
       )}

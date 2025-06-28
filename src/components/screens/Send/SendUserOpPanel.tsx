@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { AiFillCaretLeft } from 'react-icons/ai'
 import { PaymasterPanel } from '@/components/features/paymaster'
 import { SendUserOpDetail } from '@/components/screens/Send'
-import { Button } from '@/components/ui/buttons'
+import { ThemedButton } from '@/components/ui'
 import { CommonContainerPanel } from '@/components/ui/layout'
 import { BottomNavigation, HeaderNavigation } from '@/components/ui/navigation'
 import { SendUserOpContext } from '@/contexts'
@@ -53,23 +53,23 @@ const SendUserOpPanel: React.FC = () => {
             </div>
             <PaymasterPanel />
             <div className='absolute bottom-[-30px] left-[-30px] right-[-20px] flex justify-between p-10'>
-              <Button
+              <ThemedButton
                 onClick={handleHomeClick}
-                variant='text'
-                icon={AiFillCaretLeft}
+                variant='ghost'
+                icon={<AiFillCaretLeft />}
                 iconPosition='left'
-                className='flex items-center text-sm text-text-primary px-2 mt-2 rounded-full'
+                className='flex items-center text-sm px-2 mt-2'
               >
                 Back
-              </Button>
-              <Button
+              </ThemedButton>
+              <ThemedButton
                 onClick={() => setIsSendDetailOpen(true)}
                 disabled={!isTransferReady}
-                variant={isTransferReady ? 'primary' : 'secondary'}
+                variant={isTransferReady ? 'primary' : 'outline'}
                 className={`px-6 py-2 ${isTransferReady ? '' : 'opacity-50 cursor-not-allowed'}`}
               >
                 Next
-              </Button>
+              </ThemedButton>
             </div>
           </div>
         </div>

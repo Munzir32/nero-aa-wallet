@@ -30,12 +30,14 @@ export async function web3POSDetails({
     businessEmail,
     supportedChains,
     supportedTokens,
+    businessTheme = 'market', // Default theme
   }: {
     businessName: string;
     businessAddress: string;
     businessEmail: string;
     supportedChains: ChainType[];
   supportedTokens: TokenType[];
+    businessTheme?: string;
   }) {
     // const imageFileIpfsUrl = await pinFileWithPinata(imageFile);
    
@@ -45,6 +47,8 @@ export async function web3POSDetails({
       businessEmail,
       supportedChains,
       supportedTokens,
+      businessTheme, // Store the theme preference
+      timestamp: Date.now(),
     };
    
     const contractMetadataJsonUri = await pinJsonWithPinata(metadataJson);
